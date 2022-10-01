@@ -36,4 +36,12 @@
     <style name="TextInputEditText">
         <item name="android:background">@drawable/bg_text_field</item>
     </style>
+
+    <style name="TextInputLayout">
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="hintTextColor">@color/gray</item>
+        <item name="startIconTint">@color/primary_color</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
 </resources>
