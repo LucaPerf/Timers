@@ -25,4 +25,15 @@
         <item name="android:textSize">18dp</item>
         <item name="android:textStyle">italic</item>
     </style>
+
+    <style name="ButtonWhite">
+        <item name="android:background">@drawable/btn_register_login</item>
+        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextInputEditText">
+        <item name="android:background">@drawable/bg_text_field</item>
+    </style>
 </resources>
