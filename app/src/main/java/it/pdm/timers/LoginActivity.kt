@@ -17,6 +17,14 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val tv_forgot_password = findViewById<TextView>(R.id.tv_password_dimenticata)
+
+        tv_forgot_password.setOnClickListener {
+            val intent = Intent(this, PasswordDimenticataActivity::class.java)
+            startActivity(intent)
+        }
+
+
         val btnLogin = findViewById<TextView>(R.id.btn_login)
 
         btnLogin.setOnClickListener {
