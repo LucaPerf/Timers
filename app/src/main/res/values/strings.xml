@@ -14,4 +14,6 @@
     <string name="gia_un_account">
         Hai già un account? <font color="#00C9B8"><b>Login</b></font>
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
