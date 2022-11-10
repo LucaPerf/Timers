@@ -6,27 +6,17 @@
     tools:context=".fragments.TimerFragment"
     android:background="@drawable/background"
     android:padding="40dp">
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Spinner
-            android:id="@+id/spinner_numbers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/numbers"
-            android:layout_marginTop="25dp"
-            android:spinnerMode="dropdown"
-            android:textAlignment="center"/>
-        
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:entries="@array/timers"
-            android:layout_below="@+id/spinner_numbers"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:entries="@array/timers" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_avvio"
@@ -34,9 +24,9 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_view"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="25dp"
-            android:text="AVVIO"
-            android:layout_centerHorizontal="true"/>
+            android:text="AVVIO" />
     </RelativeLayout>
-    
+
 </FrameLayout>
