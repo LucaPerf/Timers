@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,8 +26,20 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_view"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="45dp"
             android:text="AVVIO" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_avvio"
+            android:layout_alignEnd="@+id/btn_avvio"
+            android:layout_gravity="bottom|end"
+            android:layout_marginTop="55dp"
+            android:clickable="true"
+            android:layout_marginEnd="-1dp"
+            app:srcCompat="@drawable/ic_add" />
     </RelativeLayout>
 
 </FrameLayout>
