@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Timers">
         <activity
+            android:name=".SetTimeActivty"
+            android:exported="false" />
+        <activity
             android:name=".PasswordDimenticataActivity"
             android:exported="false" />
         <activity
