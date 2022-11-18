@@ -24,11 +24,39 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/displayStr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="0" />
+                    android:id="@+id/tv_Houres"
+                    style="@style/Tv_Houres_Minutes_Seconds"
+                    android:text="00:00" />
+
+                <TextView
+                    android:id="@+id/tv_Minutes"
+                    style="@style/Tv_Houres_Minutes_Seconds"
+                    android:text="00:00" />
+
+                <TextView
+                    android:id="@+id/tv_Seconds"
+                    style="@style/Tv_Houres_Minutes_Seconds"
+                    android:text="00:00" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <EditText
+                    android:id="@+id/et_Houres"
+                    style="@style/Et_Houres_Minutes_Seconds"
+                    android:text="ORE" />
+
+                <EditText
+                    android:id="@+id/et_Minutes"
+                    style="@style/Et_Houres_Minutes_Seconds"
+                    android:text="MINUTI" />
+
+                <EditText
+                    android:id="@+id/et_Seconds"
+                    style="@style/Et_Houres_Minutes_Seconds"
+                    android:text="SECONDI" />
             </TableRow>
 
             <TableRow
