@@ -138,8 +138,15 @@
                 <Button
                     android:id="@+id/buttonCanc"
                     style="@style/ButtonRow"
-                    android:text="CANC" />
+                    app:IconDrawable="@drawable/ic_backspace"
+                    android:text="CANC"/>
             </TableRow>
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="SALVA"/>
         </TableLayout>
     </LinearLayout>
 
