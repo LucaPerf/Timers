@@ -3,6 +3,7 @@ package it.pdm.timers
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import it.pdm.timers.fragments.TimerFragment
 import kotlinx.android.synthetic.main.activity_set_time_activty.*
@@ -50,11 +51,52 @@ class SetTimeActivty : AppCompatActivity() {
             setNum("9")
         }
 
+        buttonBack.setOnClickListener {
+            delete()
+        }
+
+        buttonCanc.setOnClickListener{
+            deleteAll()
+        }
+
         val tv_delete = findViewById<TextView>(R.id.tv_delete)
 
         tv_delete.setOnClickListener {
             val intent = Intent(this, TimerFragment::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun delete(){
+        val num = "0"
+        if(!ore2.isEmpty()){
+            tv_Houres2.text = num
+            ore2=""
+        }else{
+            if(!ore1.isEmpty()){
+                tv_Houres1.text = num
+                ore1=""
+            } else{
+                if(!min2.isEmpty()){
+                    tv_Minutes2.text = num
+                    min2=""
+                } else{
+                    if(!min1.isEmpty()){
+                        tv_Minutes1.text = num
+                        min1 = ""
+                    }else{
+                        if(!sec2.isEmpty()){
+                            tv_Seconds2.text = num
+                            sec2 = ""
+                        }else{
+                            if(!sec1.isEmpty()){
+                                tv_Seconds1.text = num
+                                sec1=""
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -86,6 +128,21 @@ class SetTimeActivty : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun deleteAll(){
+        val zero = "0"
+        tv_Houres2.text = zero
+        tv_Houres1.text = zero
+        tv_Minutes2.text = zero
+        tv_Minutes1.text = zero
+        tv_Seconds2.text = zero
+        tv_Seconds1.text = zero
+        ore2 = ""
+        ore1 = ""
+        min2 = ""
+        min1 = ""
+        sec2 = ""
+        sec1 = ""
     }
 }

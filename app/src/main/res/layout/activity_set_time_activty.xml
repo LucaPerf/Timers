@@ -146,9 +146,10 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:id="@+id/buttonEmpty"
+                    android:id="@+id/buttonCanc"
                     style="@style/ButtonRow"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="CANC"/>
 
                 <Button
                     android:id="@+id/button0"
@@ -156,9 +157,9 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/buttonCanc"
+                    android:id="@+id/buttonBack"
                     style="@style/ButtonRow"
-                    android:text="CANC"/>
+                    android:text="back"/>
             </TableRow>
 
             <Button
