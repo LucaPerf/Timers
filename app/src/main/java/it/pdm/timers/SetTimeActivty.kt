@@ -6,8 +6,11 @@ import kotlinx.android.synthetic.main.activity_set_time_activty.*
 
 class SetTimeActivty : AppCompatActivity() {
     var sec1 = ""
+    var sec2 = ""
     var min1 = ""
+    var min2 = ""
     var ore1 = ""
+    var ore2 = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,15 +51,28 @@ class SetTimeActivty : AppCompatActivity() {
     private fun setNum(num: String){
         if(sec1.isEmpty()){
             sec1 += num
-            tv_Seconds.text = "$sec1"
+            tv_Seconds1.text = "$sec1"
         }else{
-            if(min1.isEmpty()){
-                min1 += num
-                tv_Minutes.text = "$min1"
-            }else{
-                if(ore1.isEmpty()) {
-                    ore1 += num
-                    tv_Houres1.text = "$ore1"
+            if(sec2.isEmpty()){
+                sec2 += num
+                tv_Seconds2.text = "$sec2"
+            } else{
+                if(min1.isEmpty()){
+                    min1 += num
+                    tv_Minutes1.text = "$min1"
+                } else{
+                    if(min2.isEmpty()){
+                        min2 += num
+                        tv_Minutes2.text = "$min2"
+                    }else{
+                        if(ore1.isEmpty()){
+                            ore1 += num
+                            tv_Houres1.text = "$ore1"
+                        }else{
+                            ore2 += num
+                            tv_Houres2.text = "$ore2"
+                        }
+                    }
                 }
             }
         }

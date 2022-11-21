@@ -22,21 +22,21 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/et_Houres"
+                    style="@style/Et_Houres_Minutes_Seconds"
+                    android:text="ORE" />
 
                 <TextView
-                    android:id="@+id/tv_Houres"
+                    android:id="@+id/tv_Houres2"
                     style="@style/Tv_Houres_Minutes_Seconds"
-                    android:text="00:00" />
-
+                    android:gravity="right"
+                    android:text="0" />
                 <TextView
-                    android:id="@+id/tv_Minutes"
+                    android:id="@+id/tv_Houres1"
                     style="@style/Tv_Houres_Minutes_Seconds"
-                    android:text="00:00" />
+                    android:text="0" />
 
-                <TextView
-                    android:id="@+id/tv_Seconds"
-                    style="@style/Tv_Houres_Minutes_Seconds"
-                    android:text="00:00" />
             </TableRow>
 
             <TableRow
@@ -44,19 +44,39 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/et_Houres"
-                    style="@style/Et_Houres_Minutes_Seconds"
-                    android:text="ORE" />
-
-                <EditText
                     android:id="@+id/et_Minutes"
                     style="@style/Et_Houres_Minutes_Seconds"
                     android:text="MINUTI" />
+                <TextView
+                    android:id="@+id/tv_Minutes2"
+                    style="@style/Tv_Houres_Minutes_Seconds"
+                    android:gravity="right"
+                    android:text="0" />
+                <TextView
+                    android:id="@+id/tv_Minutes1"
+                    style="@style/Tv_Houres_Minutes_Seconds"
+                    android:text="0" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp">
 
                 <EditText
                     android:id="@+id/et_Seconds"
                     style="@style/Et_Houres_Minutes_Seconds"
                     android:text="SECONDI" />
+                <TextView
+                    android:id="@+id/tv_Seconds2"
+                    style="@style/Tv_Houres_Minutes_Seconds"
+                    android:gravity="right"
+                    android:text="0" />
+                <TextView
+                    android:id="@+id/tv_Seconds1"
+                    style="@style/Tv_Houres_Minutes_Seconds"
+                    android:text="0" />
             </TableRow>
 
             <TableRow
@@ -138,7 +158,6 @@
                 <Button
                     android:id="@+id/buttonCanc"
                     style="@style/ButtonRow"
-                    app:IconDrawable="@drawable/ic_backspace"
                     android:text="CANC"/>
             </TableRow>
 
