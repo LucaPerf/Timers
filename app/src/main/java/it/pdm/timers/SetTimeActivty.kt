@@ -1,7 +1,10 @@
 package it.pdm.timers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
+import it.pdm.timers.fragments.TimerFragment
 import kotlinx.android.synthetic.main.activity_set_time_activty.*
 
 class SetTimeActivty : AppCompatActivity() {
@@ -45,6 +48,13 @@ class SetTimeActivty : AppCompatActivity() {
         }
         button9.setOnClickListener{
             setNum("9")
+        }
+
+        val tv_delete = findViewById<TextView>(R.id.tv_delete)
+
+        tv_delete.setOnClickListener {
+            val intent = Intent(this, TimerFragment::class.java)
+            startActivity(intent)
         }
     }
 

@@ -25,7 +25,7 @@
                 <EditText
                     android:id="@+id/et_Houres"
                     style="@style/Et_Houres_Minutes_Seconds"
-                    android:text="ORE" />
+                    android:text="ORE:" />
 
                 <TextView
                     android:id="@+id/tv_Houres2"
@@ -46,7 +46,7 @@
                 <EditText
                     android:id="@+id/et_Minutes"
                     style="@style/Et_Houres_Minutes_Seconds"
-                    android:text="MINUTI" />
+                    android:text="MINUTI:" />
                 <TextView
                     android:id="@+id/tv_Minutes2"
                     style="@style/Tv_Houres_Minutes_Seconds"
@@ -67,7 +67,7 @@
                 <EditText
                     android:id="@+id/et_Seconds"
                     style="@style/Et_Houres_Minutes_Seconds"
-                    android:text="SECONDI" />
+                    android:text="SECONDI:" />
                 <TextView
                     android:id="@+id/tv_Seconds2"
                     style="@style/Tv_Houres_Minutes_Seconds"
@@ -166,6 +166,16 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="25dp"
                 android:text="SALVA"/>
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Elimina"
+                android:textSize="17dp"
+                android:textAlignment="textEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/til_password"/>
         </TableLayout>
     </LinearLayout>
 
