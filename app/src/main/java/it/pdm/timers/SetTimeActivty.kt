@@ -58,13 +58,6 @@ class SetTimeActivty : AppCompatActivity() {
         buttonCanc.setOnClickListener{
             deleteAll()
         }
-
-        val tv_delete = findViewById<TextView>(R.id.tv_delete)
-
-        tv_delete.setOnClickListener {
-            val intent = Intent(this, TimerFragment::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun delete(){
