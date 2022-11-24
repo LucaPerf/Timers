@@ -1,13 +1,14 @@
 package it.pdm.timers.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.SimpleAdapter
+import android.widget.Button
 import it.pdm.timers.R
+import it.pdm.timers.SetTimeActivty
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 /**
@@ -22,8 +23,15 @@ class TimerFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_timer, container, false)
+    }
 
-        val number = arrayListOf<Int>(1,2,3,4,5,6,7,8,9,10)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        btn_set_time.setOnClickListener {
+            val intent = Intent(this.requireContext(), SetTimeActivty::class.java)
+            startActivity(intent)
+        }
     }
 
 }

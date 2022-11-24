@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.TimerFragment"
     android:background="@drawable/background"
-    android:padding="40dp">
+    android:padding="80dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,31 +15,29 @@
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="200dp"
             android:layout_marginTop="20dp"
             android:entries="@array/timers" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_set_time"
+            style="@style/ButtonGreen"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/list_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="SET TIME" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_avvio"
             style="@style/ButtonGreen"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/list_view"
+            android:layout_below="@+id/btn_set_time"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="15dp"
             android:text="AVVIO" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_timer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_avvio"
-            android:layout_alignEnd="@+id/btn_avvio"
-            android:layout_gravity="bottom|end"
-            android:layout_marginTop="55dp"
-            android:clickable="true"
-            android:layout_marginEnd="-1dp"
-            app:srcCompat="@drawable/ic_add" />
     </RelativeLayout>
 
 </FrameLayout>
