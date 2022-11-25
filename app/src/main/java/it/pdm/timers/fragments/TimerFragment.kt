@@ -2,10 +2,8 @@ package it.pdm.timers.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import it.pdm.timers.R
 import it.pdm.timers.SetTimeActivty
@@ -32,6 +30,12 @@ class TimerFragment : Fragment() {
             val intent = Intent(this.requireContext(), SetTimeActivty::class.java)
             startActivity(intent)
         }
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu):Boolean {
+        menuInflater.inflate(R.menu.menu_settings, menu)
+        return true
     }
 
 }
