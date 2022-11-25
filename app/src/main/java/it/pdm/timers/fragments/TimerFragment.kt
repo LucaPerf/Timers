@@ -2,6 +2,7 @@ package it.pdm.timers.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
@@ -23,6 +24,7 @@ class TimerFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_timer, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -30,12 +32,6 @@ class TimerFragment : Fragment() {
             val intent = Intent(this.requireContext(), SetTimeActivty::class.java)
             startActivity(intent)
         }
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu):Boolean {
-        menuInflater.inflate(R.menu.menu_settings, menu)
-        return true
     }
 
 }
