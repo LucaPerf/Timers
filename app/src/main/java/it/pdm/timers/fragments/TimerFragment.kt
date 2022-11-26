@@ -32,6 +32,11 @@ class TimerFragment : Fragment() {
             val intent = Intent(this.requireContext(), SetTimeActivty::class.java)
             startActivity(intent)
         }
+
+        btn_avvio.setOnClickListener {
+            val intent = Intent(this.requireContext(), CountDownTimer::class.java)
+            startActivity(intent)
+        }
     }
 
 }
