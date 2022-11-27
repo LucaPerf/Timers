@@ -1,14 +1,10 @@
 package it.pdm.timers
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import it.pdm.timers.fragments.TimerFragment
 import kotlinx.android.synthetic.main.activity_set_time_activty.*
 
-class SetTimeActivty : AppCompatActivity() {
+class SetTimeActivity : AppCompatActivity() {
     var sec1 = ""
     var sec2 = ""
     var min1 = ""
@@ -18,7 +14,7 @@ class SetTimeActivty : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_set_time_activty)
+        setContentView(R.layout.activity_set_time)
 
         button0.setOnClickListener{
             setNum("0")
