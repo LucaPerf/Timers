@@ -22,26 +22,6 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <EditText
-                    android:id="@+id/et_Houres"
-                    style="@style/Et_Houres_Minutes_Seconds"
-                    android:text="ORE:" />
-
-                <TextView
-                    android:id="@+id/tv_Houres2"
-                    style="@style/Tv_Houres_Minutes_Seconds"
-                    android:gravity="right"
-                    android:text="0" />
-                <TextView
-                    android:id="@+id/tv_Houres1"
-                    style="@style/Tv_Houres_Minutes_Seconds"
-                    android:text="0" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
                 <EditText
                     android:id="@+id/et_Minutes"
