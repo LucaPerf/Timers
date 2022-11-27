@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
+import it.pdm.timers.CountdownActivity
 import it.pdm.timers.R
 import it.pdm.timers.SetTimeActivty
 import kotlinx.android.synthetic.main.fragment_timer.*
@@ -34,9 +35,10 @@ class TimerFragment : Fragment() {
         }
 
         btn_avvio.setOnClickListener {
-            val intent = Intent(this.requireContext(), CountDownTimer::class.java)
+            val intent = Intent(this.requireContext(), CountdownActivity::class.java)
             startActivity(intent)
         }
+
     }
 
 }
