@@ -2,13 +2,11 @@ package it.pdm.timers.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
 import it.pdm.timers.CountdownActivity
 import it.pdm.timers.R
-import it.pdm.timers.SetTimeActivty
+import it.pdm.timers.SetTimeActivity
 import kotlinx.android.synthetic.main.fragment_timer.*
 
 /**
@@ -30,7 +28,7 @@ class TimerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btn_set_time.setOnClickListener {
-            val intent = Intent(this.requireContext(), SetTimeActivty::class.java)
+            val intent = Intent(this.requireContext(), SetTimeActivity::class.java)
             startActivity(intent)
         }
 
