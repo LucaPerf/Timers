@@ -1,43 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TimerFragment"
-    android:background="@drawable/background"
-    android:padding="80dp">
+    tools:context=".fragments.TimerFragment">
 
-    <RelativeLayout
+    <ListView
+        android:id="@+id/lv_timer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:listitem="@layout/list_item"/>
 
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"
-            android:entries="@array/timers" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_set_time"
-            style="@style/ButtonGreen"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/list_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="SET TIME" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_avvio"
-            style="@style/ButtonGreen"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_set_time"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="AVVIO" />
-    </RelativeLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
