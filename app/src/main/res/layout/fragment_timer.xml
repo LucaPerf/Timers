@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TimerFragment"
-    android:background="@drawable/background"
-    android:padding="80dp">
+    tools:context=".fragments.TimerFragment">
 
-    <RelativeLayout
+    <ListView
+        android:id="@+id/lv_timer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:listitem="@layout/list_item"/>
 
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"
-            android:entries="@array/timers" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_save"
+        app:layout_constraintRight_toRightOf="@id/fab_add"
+        app:layout_constraintBottom_toTopOf="@id/fab_add"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_set_time"
-            style="@style/ButtonGreen"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/list_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="SET TIME" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:layout_constraintRight_toRightOf="@id/fab_play"
+        app:layout_constraintBottom_toTopOf="@id/fab_play"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_avvio"
-            style="@style/ButtonGreen"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_set_time"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="AVVIO" />
-    </RelativeLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play"
+        app:layout_constraintRight_toRightOf="@id/fab"
+        app:layout_constraintBottom_toTopOf="@id/fab"
+        android:layout_marginBottom="20dp"
+        android:visibility="invisible"/>
 
-</FrameLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@id/lv_timer"
+        app:layout_constraintRight_toRightOf="@id/lv_timer"
+        android:layout_margin="25dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
