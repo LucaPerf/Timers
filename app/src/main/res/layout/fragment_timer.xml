@@ -12,4 +12,43 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/list_item"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_save"
+        app:layout_constraintRight_toRightOf="@id/fab_add"
+        app:layout_constraintBottom_toTopOf="@id/fab_add"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:layout_constraintRight_toRightOf="@id/fab_play"
+        app:layout_constraintBottom_toTopOf="@id/fab_play"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_play"
+        app:layout_constraintRight_toRightOf="@id/fab"
+        app:layout_constraintBottom_toTopOf="@id/fab"
+        android:layout_marginBottom="20dp"
+        android:visibility="invisible"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@id/lv_timer"
+        app:layout_constraintRight_toRightOf="@id/lv_timer"
+        android:layout_margin="45dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
