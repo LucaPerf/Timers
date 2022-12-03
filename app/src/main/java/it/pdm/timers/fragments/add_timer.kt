@@ -1,11 +1,15 @@
 package it.pdm.timers.fragments
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import it.pdm.timers.R
+import it.pdm.timers.Timer
 import kotlinx.android.synthetic.main.fragment_add_timer.*
 
 /**
@@ -14,6 +18,10 @@ import kotlinx.android.synthetic.main.fragment_add_timer.*
  * create an instance of this fragment.
  */
 class add_timer : Fragment() {
+    val tv_min2 = view?.findViewById<TextView>(R.id.tv_Minutes2)
+    val tv_min1 = view?.findViewById<TextView>(R.id.tv_Minutes1)
+    val tv_sec2 = view?.findViewById<TextView>(R.id.tv_Seconds2)
+    val tv_sec1 = view?.findViewById<TextView>(R.id.tv_Seconds1)
     var sec1 = ""
     var sec2 = ""
     var min1 = ""
@@ -75,7 +83,13 @@ class add_timer : Fragment() {
     }
 
     private fun createLV(){
+        saveData(
+            tv_min2?.text.toString(), tv_min1?.text.toString(),
+            tv_sec2?.text.toString(), tv_sec1?.text.toString())
+        Log.d(TAG, "Timer aggiunto con successo")
 
+        val lv = TimerFragment()
+        createFragment(lv)
     }
 
     private fun delete(){
@@ -134,4 +148,16 @@ class add_timer : Fragment() {
         sec2 = ""
         sec1 = ""
     }
+
+    private fun saveData(minuto2: String, minuto1: String,
+                         secondo2: String, secondo1: String){
+        Timer(minuto2, minuto1, secondo2, secondo1)
+    }
+
+    private fun createFragment(fragment: Fragment) =
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, fragment)
+            addToBackStack(null)
+            commit()
+        }
 }
