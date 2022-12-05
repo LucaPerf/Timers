@@ -14,11 +14,15 @@ class Adapter(private val context: Activity, private val arrayList: ArrayList<Ti
        val inflater : LayoutInflater = LayoutInflater.from(context)
        val view : View = inflater.inflate(R.layout.list_item, null)
 
-        val NTimer : TextView = view.findViewById(R.id.tv_number_timer)
-        val timeTimer : TextView = view.findViewById(R.id.tv_time)
+        val tvmin2 : TextView = view.findViewById(R.id.tv_min_2)
+        val tvmin1 : TextView = view.findViewById(R.id.tv_min_1)
+        val tvsec2 : TextView = view.findViewById(R.id.tv_sec_2)
+        val tvsec1 : TextView = view.findViewById(R.id.tv_sec_1)
 
-        NTimer.text = arrayList[position].NTimer
-        timeTimer.text = arrayList[position].timeTimer
+        tvmin2.text = arrayList[position].minuto2
+        tvmin1.text = arrayList[position].minuto1
+        tvsec2.text = arrayList[position].secondo2
+        tvsec1.text = arrayList[position].secondo1
 
         return view
     }
