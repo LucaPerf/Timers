@@ -1,11 +1,16 @@
 package it.pdm.timers.fragments
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.ListView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.pdm.timers.*
@@ -18,8 +23,6 @@ import kotlinx.android.synthetic.main.list_item.view.*
  * create an instance of this fragment.
  */
 class TimerFragment : Fragment() {
-    lateinit var lv_timer: ListView
-    lateinit var TimeArrayList : ArrayList<Timer>
 
     private val open : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
     private val close : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim) }
@@ -28,24 +31,31 @@ class TimerFragment : Fragment() {
 
     private var clicked = false
 
+    private lateinit var lv_timer: ListView
+    private lateinit var TimeArrayList: ArrayList<Timer>
+    private lateinit var TimerAdapter: Adapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
-        popolateListView(view)
+        TimeArrayList = ArrayList()
+        lv_timer = view.findViewById(R.id.listview)
+        TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
+        lv_timer.adapter = TimerAdapter
+
         // Inflate the layout for this fragment
         return view
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         //predisposizione list view
         //popolateListView(view)
-
         //apertura del floating action button
+
         openFunction(view)
     }
 
@@ -60,11 +70,7 @@ class TimerFragment : Fragment() {
         }
 
         fabAdd.setOnClickListener {
-            /*val intent = Intent(this.requireContext(), SetTimeActivity::class.java)
-            startActivity(intent)*/
-
-            val add_timer = add_timer()
-            createFragment(add_timer)
+            addTimers()
         }
 
         fabPlay.setOnClickListener {
@@ -113,37 +119,37 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private fun popolateListView(view: View) {
-        lv_timer = view?.findViewById(R.id.listview)
-
-        TimeArrayList = ArrayList()
-        //lv_timer.adapter = Adapter(this.requireActivity(), TimeArrayList)
-
-        val timer = Timer("1", "1", "4", "3")
-        TimeArrayList.add(timer)
-
-        lv_timer.adapter = Adapter(this.requireActivity(), TimeArrayList)
-
-        /*lv_timer = view.findViewById(R.id.listview)
-        TimeArrayList = arrayListOf<Timer>()
-
-        /*val time = Timer(addTimer.min2, addTimer.min1, addTimer.sec2, addTimer.sec1)
-        TimeArrayList.add(time)*/
-        lv_timer.adapter = Adapter(this.requireActivity(), TimeArrayList)*/
-    }
-
-    fun getList(): ArrayList<Timer> {
-        return TimeArrayList
-    }
-
-    fun getLV(): ListView{
-        return lv_timer
-    }
-
     private fun createFragment(fragment: Fragment) =
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             addToBackStack(null)
             commit()
         }
+
+    private fun addTimers(){
+        val inflater = LayoutInflater.from(this.requireContext())
+        val v = inflater.inflate(R.layout.add_item, null)
+
+        val minutes = v.findViewById<EditText>(R.id.minutes)
+        val seconds = v.findViewById<EditText>(R.id.seconds)
+
+        val addDialog = AlertDialog.Builder(this.requireContext())
+        addDialog.setView(v)
+        addDialog.setPositiveButton("Ok"){
+                dialog,_->
+            val min = minutes.text.toString()
+            val sec = seconds.text.toString()
+            TimeArrayList.add(Timer("$min", "$sec"))
+            TimerAdapter.notifyDataSetChanged()
+            Log.d(ContentValues.TAG, "Timer aggiunto con successo")
+            dialog.dismiss()
+        }
+        addDialog.setNegativeButton("Cancel"){
+                dialog,_->
+            dialog.dismiss()
+            Log.d(ContentValues.TAG, "Cancel")
+        }
+        addDialog.create()
+        addDialog.show()
+    }
 }
