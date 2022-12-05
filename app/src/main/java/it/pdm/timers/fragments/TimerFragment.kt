@@ -1,16 +1,16 @@
 package it.pdm.timers.fragments
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.pdm.timers.*
 import kotlinx.android.synthetic.main.fragment_timer.*
+import kotlinx.android.synthetic.main.list_item.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -18,7 +18,8 @@ import kotlinx.android.synthetic.main.fragment_timer.*
  * create an instance of this fragment.
  */
 class TimerFragment : Fragment() {
-    private lateinit var userArrayList : ArrayList<Timer>
+    lateinit var lv_timer: ListView
+    lateinit var TimeArrayList : ArrayList<Timer>
 
     private val open : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
     private val close : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim) }
@@ -31,8 +32,10 @@ class TimerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
+        popolateListView(view)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timer, container, false)
+        return view
     }
 
 
@@ -40,7 +43,8 @@ class TimerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //predisposizione list view
-        popolateListView()
+        //popolateListView(view)
+
         //apertura del floating action button
         openFunction(view)
     }
@@ -56,8 +60,11 @@ class TimerFragment : Fragment() {
         }
 
         fabAdd.setOnClickListener {
-            val add = add_timer()
-            createFragment(add)
+            /*val intent = Intent(this.requireContext(), SetTimeActivity::class.java)
+            startActivity(intent)*/
+
+            val add_timer = add_timer()
+            createFragment(add_timer)
         }
 
         fabPlay.setOnClickListener {
@@ -106,23 +113,31 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private fun popolateListView(){
+    private fun popolateListView(view: View) {
+        lv_timer = view?.findViewById(R.id.listview)
 
-        /*val ntimer = arrayOf("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15")
+        TimeArrayList = ArrayList()
+        //lv_timer.adapter = Adapter(this.requireActivity(), TimeArrayList)
 
+        val timer = Timer("1", "1", "4", "3")
+        TimeArrayList.add(timer)
 
-        val timet = arrayOf("00:01", "00:02", "00:03", "00:04", "00:05", "00:06", "00:07", "00:08", "00:09", "00:10",
-            "00:11", "00:12", "00:13", "00:14", "00:15")
+        lv_timer.adapter = Adapter(this.requireActivity(), TimeArrayList)
 
-        userArrayList = ArrayList()
-        for (i in ntimer.indices){
-            val timer = Timer(ntimer[i], timet[i])
-            userArrayList.add(timer)
+        /*lv_timer = view.findViewById(R.id.listview)
+        TimeArrayList = arrayListOf<Timer>()
 
+        /*val time = Timer(addTimer.min2, addTimer.min1, addTimer.sec2, addTimer.sec1)
+        TimeArrayList.add(time)*/
+        lv_timer.adapter = Adapter(this.requireActivity(), TimeArrayList)*/
+    }
 
-        lv_timer.adapter = Adapter(this.requireActivity(), userArrayList)
-        }*/
+    fun getList(): ArrayList<Timer> {
+        return TimeArrayList
+    }
 
+    fun getLV(): ListView{
+        return lv_timer
     }
 
     private fun createFragment(fragment: Fragment) =
