@@ -16,13 +16,9 @@ class Adapter(private val context: Activity, private val arrayList: ArrayList<Ti
 
         val tvmin2 : TextView = view.findViewById(R.id.tv_min_2)
         val tvmin1 : TextView = view.findViewById(R.id.tv_min_1)
-        val tvsec2 : TextView = view.findViewById(R.id.tv_sec_2)
-        val tvsec1 : TextView = view.findViewById(R.id.tv_sec_1)
 
-        tvmin2.text = arrayList[position].minuto2
-        tvmin1.text = arrayList[position].minuto1
-        tvsec2.text = arrayList[position].secondo2
-        tvsec1.text = arrayList[position].secondo1
+        tvmin2.text = arrayList[position].minuti
+        tvmin1.text = arrayList[position].secondi
 
         return view
     }
