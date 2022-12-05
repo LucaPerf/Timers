@@ -2,6 +2,7 @@ package it.pdm.timers
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_set_time.*
 
 class SetTimeActivity : AppCompatActivity() {
@@ -52,6 +53,15 @@ class SetTimeActivity : AppCompatActivity() {
         buttonCanc.setOnClickListener{
             deleteAll()
         }
+
+        btn_save.setOnClickListener {
+            createLV()
+        }
+
+    }
+
+    private fun createLV(){
+
     }
 
     private fun delete(){
