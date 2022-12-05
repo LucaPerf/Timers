@@ -9,7 +9,9 @@
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/list_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,8 +49,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="@id/lv_timer"
-        app:layout_constraintRight_toRightOf="@id/lv_timer"
+        app:layout_constraintBottom_toBottomOf="@id/listview"
+        app:layout_constraintRight_toRightOf="@id/listview"
         android:layout_margin="25dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
