@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.list_item.view.*
  * create an instance of this fragment.
  */
 class TimerFragment : Fragment() {
+    var mins = 0
+    var secs = 0
 
     private val open : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
     private val close : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim) }
@@ -74,8 +76,7 @@ class TimerFragment : Fragment() {
         }
 
         fabPlay.setOnClickListener {
-            val intent = Intent(this.requireContext(), CountdownActivity::class.java)
-            startActivity(intent)
+            playTimers(mins, secs)
         }
     }
 
@@ -139,6 +140,10 @@ class TimerFragment : Fragment() {
                 dialog,_->
             val min = minutes.text.toString()
             val sec = seconds.text.toString()
+
+            mins = min.toInt()
+            secs = sec.toInt()
+
             TimeArrayList.add(Timer("$min", "$sec"))
             TimerAdapter.notifyDataSetChanged()
             Log.d(ContentValues.TAG, "Timer aggiunto con successo")
@@ -151,5 +156,12 @@ class TimerFragment : Fragment() {
         }
         addDialog.create()
         addDialog.show()
+    }
+
+    private fun playTimers(min:Int, sec:Int){
+        val i =Intent(requireActivity().baseContext, CountdownActivity::class.java)
+        i.putExtra("MINUTI", min)
+        i.putExtra("SECONDI", sec)
+        startActivity(i)
     }
 }
