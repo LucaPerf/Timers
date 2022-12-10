@@ -16,4 +16,49 @@
     </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="numbers">
+        <item>Timer 1</item>
+        <item>Timer 2</item>
+        <item>Timer 3</item>
+        <item>Timer 4</item>
+        <item>Timer 5</item>
+        <item>Timer 6</item>
+        <item>Timer 7</item>
+        <item>Timer 8</item>
+        <item>Timer 9</item>
+        <item>Timer 10</item>
+        <item>Timer 11</item>
+        <item>Timer 12</item>
+        <item>Timer 13</item>
+        <item>Timer 14</item>
+        <item>Timer 15</item>
+        <item>Timer 16</item>
+        <item>Timer 17</item>
+        <item>Timer 18</item>
+        <item>Timer 19</item>
+        <item>Timer 20</item>
+    </string-array>
+
+    <string-array name="timers">
+        <item>Timer 1</item>
+        <item>Timer 2</item>
+        <item>Timer 3</item>
+        <item>Timer 4</item>
+        <item>Timer 5</item>
+        <item>Timer 6</item>
+        <item>Timer 7</item>
+        <item>Timer 8</item>
+        <item>Timer 9</item>
+        <item>Timer 10</item>
+    </string-array>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
