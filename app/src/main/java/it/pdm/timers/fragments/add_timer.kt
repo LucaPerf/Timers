@@ -182,7 +182,7 @@ class add_timer : Fragment() {
 
     private fun saveData(minuto2: String, minuto1: String,
                          secondo2: String, secondo1: String){
-        val time = Timer("$minuto2", "$minuto1", "$secondo2", "$secondo1")
+        val time = Timer("$minuto2", "$minuto1")
         //userArrayList.add(time)
         //timerFragment.lv_timer.adapter = Adapter(this.timerFragment.requireActivity(), timerFragment.TimeArrayList)
     }
