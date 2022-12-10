@@ -11,12 +11,10 @@ import java.util.*
 
 class CountdownActivity : AppCompatActivity() {
     var txt_time: TextView? = null
-    var txt_breaks: TextView? = null
     var img_play: ImageView? = null
     var progressbar: ProgressBar? = null
-    var timerLength: Int? = null
-    var breaksCount: Int = 0
-    var totalbreaks: Int? = null
+    var timerLengthMin: Int? = null
+    var timerLengthSec: Int? = null
 
     private enum class TimerState{
         STARTED, STOPPED
@@ -47,35 +45,24 @@ class CountdownActivity : AppCompatActivity() {
 
     fun init(){
         txt_time = findViewById(R.id.tv_countdown)
-        txt_breaks = findViewById(R.id.txt_total_breaks)
         progressbar = findViewById(R.id.progress_coundown)
         img_play = findViewById(R.id.iv_play)
     }
 
     fun getData(){
-        timerLength = intent.getIntExtra("TIME", 1)
-        totalbreaks = intent.getIntExtra("BREAKS", 0)
+        timerLengthMin = intent.getIntExtra("MINUTI", 1)
+        timerLengthSec = intent.getIntExtra("SECONDI", 1)
 
-        if(totalbreaks == 0){
-            txt_breaks!!.visibility = View.GONE
-        }else{
-            txt_breaks!!.setText(breaksCount.toString() + "/" + totalbreaks.toString())
-        }
-
-        timeLeftInMillis = (timerLength!! * 60 * 1000).toLong()
+        timeLeftInMillis = (timerLengthMin!! * 60 * 1000).toLong() + (timerLengthSec!! * 1000).toLong()
         startTimer()
     }
 
     private fun setProgressBarValues(){
-        //errore da guardare il setMax
         progressbar!!.setMax(timeLeftInMillis.toInt() / 1000)
-
         progressbar!!.setProgress(timeLeftInMillis.toInt() / 1000)
     }
 
     private fun startTimer(){
-
-        //possibile errore
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000){
             override fun onTick(millisUntilFinished: Long){
                 timeLeftInMillis = millisUntilFinished
@@ -101,11 +88,10 @@ class CountdownActivity : AppCompatActivity() {
     private fun updateCountDownText(){
         val seconds: Int = (timeLeftInMillis.toInt() / 1000) / 60
         val minutes: Int = (timeLeftInMillis.toInt() / 1000) % 60
-        val hours: Int = (timeLeftInMillis.toInt() / 1000) % 60
 
         val timeLeftFormatted: String =
             java.lang.String.format(Locale.getDefault(),
-            "%02d:%02d", hours, minutes, seconds)
+            "%02d:%02d", minutes, seconds)
         txt_time!!.setText(timeLeftFormatted)
     }
 }
