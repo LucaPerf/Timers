@@ -8,10 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 
 class AdapterRV(private val allenamentiList: ArrayList<Allenamenti>): RecyclerView.Adapter<AdapterRV.MyViewHolder>() {
 
+    private lateinit var mListener: onItemClickListner
+
+    interface onItemClickListner{
+        fun onItemClick(position: Int)
+    }
+    fun setOnItemClickListner(listener: onItemClickListner){
+        mListener = listener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recylerview_item,
         parent, false)
-        return MyViewHolder(itemView)
+        return MyViewHolder(itemView, mListener)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -23,7 +32,13 @@ class AdapterRV(private val allenamentiList: ArrayList<Allenamenti>): RecyclerVi
         return allenamentiList.size
     }
 
-    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class MyViewHolder(itemView: View, listener: onItemClickListner): RecyclerView.ViewHolder(itemView){
         val numbers: TextView = itemView.findViewById(R.id.tv_recyclerview_numbers)
+
+        init {
+            itemView.setOnClickListener{
+                listener.onItemClick(adapterPosition)
+            }
+        }
     }
 }
