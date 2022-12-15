@@ -1,5 +1,6 @@
 package it.pdm.timers.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.pdm.timers.AdapterRV
 import it.pdm.timers.Allenamenti
+import it.pdm.timers.AllenamentoSalvatoActivity
 import it.pdm.timers.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,6 +27,7 @@ class TimerSalvatiFragment : Fragment() {
     private lateinit var newRecyclerView: RecyclerView
     private lateinit var newArrayList: ArrayList<Allenamenti>
     lateinit var numbers: Array<String>
+    lateinit var allenamenti: Array<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +75,18 @@ class TimerSalvatiFragment : Fragment() {
             newArrayList.add(allenamenti)
         }
 
-        newRecyclerView.adapter = AdapterRV(newArrayList)
+        var adapter = AdapterRV(newArrayList)
+        newRecyclerView.adapter = adapter
+        adapter.setOnItemClickListner(object : AdapterRV.onItemClickListner{
+            override fun onItemClick(position: Int) {
+
+                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
+                intent.putExtra("numbers", newArrayList[position].numbers_recyclerview)
+                intent.putExtra("allenamenti", allenamenti[position])
+                startActivity(intent)
+            }
+
+        })
     }
 
 
