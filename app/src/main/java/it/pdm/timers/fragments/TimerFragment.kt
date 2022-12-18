@@ -12,6 +12,8 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.pdm.timers.*
 import kotlinx.android.synthetic.main.fragment_timer.*
@@ -33,7 +35,7 @@ class TimerFragment : Fragment() {
 
     private var clicked = false
 
-    private lateinit var lv_timer: ListView
+    private lateinit var lv_timer: RecyclerView
     private lateinit var TimeArrayList: ArrayList<Timer>
     private lateinit var TimerAdapter: Adapter
 
@@ -42,9 +44,18 @@ class TimerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
+
+        //set list
         TimeArrayList = ArrayList()
+
+        //set recycler_view
         lv_timer = view.findViewById(R.id.listview)
+
+        //set adapter
         TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
+
+        //set recyclerview adapter
+        lv_timer.layoutManager = LinearLayoutManager(this.requireContext())
         lv_timer.adapter = TimerAdapter
 
         // Inflate the layout for this fragment
@@ -72,6 +83,7 @@ class TimerFragment : Fragment() {
         }
 
         fabAdd.setOnClickListener {
+            //set dialog
             addTimers()
         }
 
