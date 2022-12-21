@@ -1,12 +1,13 @@
 package it.pdm.timers
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class AdapterRV(private val allenamentiList: ArrayList<Allenamenti>): RecyclerView.Adapter<AdapterRV.MyViewHolder>() {
+class AdapterRV(private val context: Activity, private val allenamentiList: ArrayList<Allenamenti>): RecyclerView.Adapter<AdapterRV.MyViewHolder>() {
 
     private lateinit var mListener: onItemClickListner
 
