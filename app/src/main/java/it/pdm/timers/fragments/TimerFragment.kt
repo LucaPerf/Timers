@@ -42,10 +42,7 @@ class TimerFragment : Fragment() {
     private lateinit var TimeArrayList: ArrayList<Timer>
     private lateinit var TimerAdapter: Adapter
 
-    //recyler view timer salvati
-    lateinit var newRecyclerViewList: ArrayList<Allenamenti>
-    lateinit var RVAdapter: AdapterRV
-    lateinit var rv_timer: RecyclerView
+    private lateinit var communicator: Communicator
 
 
     override fun onCreateView(
@@ -56,14 +53,14 @@ class TimerFragment : Fragment() {
 
         //set list
         TimeArrayList = ArrayList()
-        newRecyclerViewList = ArrayList()
+
+        communicator = activity as Communicator
 
         //set recycler_view
         lv_timer = view.findViewById(R.id.listview)
 
         //set adapter
         TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
-        RVAdapter = AdapterRV(this.requireActivity(), newRecyclerViewList)
 
         //set recyclerview adapter
         lv_timer.layoutManager = LinearLayoutManager(this.requireContext())
@@ -189,14 +186,7 @@ class TimerFragment : Fragment() {
 
 
     private fun onSavedTimer(){
-        newRecyclerViewList = ArrayList()
-        newRecyclerViewList.add(Allenamenti("32"))
-        RVAdapter = AdapterRV(this.requireActivity(), newRecyclerViewList)
-
-        Log.d(ContentValues.TAG, "TimerSalvati aggiunto con successo")
-
-        val mini = TimerSalvatiFragment()
-        createFragment(mini)
+        communicator.passData("")
     }
 
     private fun createFragment(fragment: Fragment) =

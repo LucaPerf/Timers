@@ -20,18 +20,45 @@ import it.pdm.timers.*
  * create an instance of this fragment.
  */
 class TimerSalvatiFragment : Fragment() {
-    lateinit var newRecyclerView: RecyclerView
-    lateinit var newArrayList: ArrayList<Allenamenti>
-    lateinit var TimerRecylerViewAllenamenti: AdapterRV
+    var output : String ?= ""
+
+    private lateinit var newArrayList: ArrayList<Allenamenti>
+    private lateinit var TimerRecylerViewAllenamenti: AdapterRV
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_timer_salvati, container, false)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview)
+        output = arguments?.getString("message")
 
+        newArrayList = ArrayList()
+        output?.let { Allenamenti(it) }?.let { newArrayList.add(it) }
+
+        TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
+
+        //set recyclerview adapter
+        recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        recyclerView.adapter = TimerRecylerViewAllenamenti
+        TimerRecylerViewAllenamenti.notifyDataSetChanged()
+
+        getUserdata()
+
+        return view
+    }
+
+    private fun getUserdata() {
+        TimerRecylerViewAllenamenti.setOnItemClickListner(object : AdapterRV.onItemClickListner {
+            override fun onItemClick(position: Int) {
+                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
+                startActivity(intent)
+            }
+        })
+    }
+}
         //predisposizione recycler view
-        setupRecyclerView(view)
+      /*  setupRecyclerView(view)
 
         newArrayList = ArrayList()
         newArrayList.add(Allenamenti("23"))
@@ -88,4 +115,4 @@ class TimerSalvatiFragment : Fragment() {
     }*/
 
     }
-}
+}*/
