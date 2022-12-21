@@ -2,14 +2,13 @@ package it.pdm.timers.fragments
 
 import android.content.ContentValues
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
-import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.pdm.timers.*
 import kotlinx.android.synthetic.main.fragment_timer.*
+import kotlinx.android.synthetic.main.fragment_timer_salvati.*
 import kotlinx.android.synthetic.main.list_item.view.*
 
 /**
@@ -28,6 +28,8 @@ class TimerFragment : Fragment() {
     var mins = 0
     var secs = 0
 
+    private val timerSalvatiFragment = TimerSalvatiFragment()
+
     private val open : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
     private val close : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim) }
     private val fromBottom : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.from_bottom_anim) }
@@ -35,9 +37,16 @@ class TimerFragment : Fragment() {
 
     private var clicked = false
 
+    //recycler view timer
     private lateinit var lv_timer: RecyclerView
     private lateinit var TimeArrayList: ArrayList<Timer>
     private lateinit var TimerAdapter: Adapter
+
+    //recyler view timer salvati
+    lateinit var newRecyclerViewList: ArrayList<Allenamenti>
+    lateinit var RVAdapter: AdapterRV
+    lateinit var rv_timer: RecyclerView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,12 +56,14 @@ class TimerFragment : Fragment() {
 
         //set list
         TimeArrayList = ArrayList()
+        newRecyclerViewList = ArrayList()
 
         //set recycler_view
         lv_timer = view.findViewById(R.id.listview)
 
         //set adapter
         TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
+        RVAdapter = AdapterRV(this.requireActivity(), newRecyclerViewList)
 
         //set recyclerview adapter
         lv_timer.layoutManager = LinearLayoutManager(this.requireContext())
@@ -89,6 +100,10 @@ class TimerFragment : Fragment() {
 
         fabPlay.setOnClickListener {
             playTimers(mins, secs)
+        }
+
+        fabSave.setOnClickListener {
+            onSavedTimer()
         }
     }
 
@@ -132,12 +147,7 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private fun createFragment(fragment: Fragment) =
-        parentFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, fragment)
-            addToBackStack(null)
-            commit()
-        }
+
 
     private fun addTimers(){
         val inflater = LayoutInflater.from(this.requireContext())
@@ -176,4 +186,23 @@ class TimerFragment : Fragment() {
         i.putExtra("SECONDI", sec)
         startActivity(i)
     }
+
+
+    private fun onSavedTimer(){
+        newRecyclerViewList = ArrayList()
+        newRecyclerViewList.add(Allenamenti("32"))
+        RVAdapter = AdapterRV(this.requireActivity(), newRecyclerViewList)
+
+        Log.d(ContentValues.TAG, "TimerSalvati aggiunto con successo")
+
+        val mini = TimerSalvatiFragment()
+        createFragment(mini)
+    }
+
+    private fun createFragment(fragment: Fragment) =
+        parentFragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, fragment)
+            addToBackStack(null)
+            commit()
+        }
 }

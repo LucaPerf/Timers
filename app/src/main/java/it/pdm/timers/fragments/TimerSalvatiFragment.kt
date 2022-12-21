@@ -20,7 +20,7 @@ import it.pdm.timers.*
  * create an instance of this fragment.
  */
 class TimerSalvatiFragment : Fragment() {
-    private lateinit var newRecyclerView: RecyclerView
+    lateinit var newRecyclerView: RecyclerView
     lateinit var newArrayList: ArrayList<Allenamenti>
     lateinit var TimerRecylerViewAllenamenti: AdapterRV
 
@@ -34,26 +34,25 @@ class TimerSalvatiFragment : Fragment() {
         setupRecyclerView(view)
 
         newArrayList = ArrayList()
+        newArrayList.add(Allenamenti("23"))
+
         newRecyclerView = view.findViewById(R.id.recyclerview)
 
-        //newArrayList.add(Allenamenti("0"))
         TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
+
         //set recyclerview adapter
         newRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
         newRecyclerView.adapter = TimerRecylerViewAllenamenti
         TimerRecylerViewAllenamenti.notifyDataSetChanged()
 
-
         getUserdata()
         // Inflate the layout for this fragment
         return view
-
-
     }
 
     private fun setupRecyclerView(view: View){
         newRecyclerView = view.findViewById(R.id.recyclerview)
-        newArrayList = arrayListOf<Allenamenti>()
+        //newArrayList = arrayListOf<Allenamenti>()
         newRecyclerView.apply {
             layoutManager = LinearLayoutManager(view.context)
             newRecyclerView.setHasFixedSize(true)
@@ -67,7 +66,6 @@ class TimerSalvatiFragment : Fragment() {
                 val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
                 startActivity(intent)
             }
-
         })
 
 
