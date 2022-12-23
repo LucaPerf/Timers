@@ -86,8 +86,8 @@ class CountdownActivity : AppCompatActivity() {
     }
 
     private fun updateCountDownText(){
-        val seconds: Int = (timeLeftInMillis.toInt() / 1000) / 60
-        val minutes: Int = (timeLeftInMillis.toInt() / 1000) % 60
+        val minutes: Int = (timeLeftInMillis.toInt() / 1000) / 60
+        val seconds: Int = (timeLeftInMillis.toInt() / 1000) % 60
 
         val timeLeftFormatted: String =
             java.lang.String.format(Locale.getDefault(),

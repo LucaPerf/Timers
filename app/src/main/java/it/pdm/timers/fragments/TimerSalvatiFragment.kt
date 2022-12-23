@@ -1,16 +1,18 @@
 package it.pdm.timers.fragments
 
+import android.content.ContentValues
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import it.pdm.timers.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import it.pdm.timers.*
 
 /**
  * A simple [Fragment] subclass.
@@ -18,43 +20,99 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class TimerSalvatiFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    var output : String ?= ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var newArrayList: ArrayList<Allenamenti>
+    private lateinit var TimerRecylerViewAllenamenti: AdapterRV
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timer_salvati, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_timer_salvati, container, false)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview)
+        output = arguments?.getString("message")
+
+        newArrayList = ArrayList()
+        output?.let { Allenamenti(it) }?.let { newArrayList.add(it) }
+
+        TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
+
+        //set recyclerview adapter
+        recyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        recyclerView.adapter = TimerRecylerViewAllenamenti
+        TimerRecylerViewAllenamenti.notifyDataSetChanged()
+
+        getUserdata()
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TimerSalvatiFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TimerSalvatiFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun getUserdata() {
+        TimerRecylerViewAllenamenti.setOnItemClickListner(object : AdapterRV.onItemClickListner {
+            override fun onItemClick(position: Int) {
+                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
+                startActivity(intent)
             }
+        })
     }
 }
+        //predisposizione recycler view
+      /*  setupRecyclerView(view)
+
+        newArrayList = ArrayList()
+        newArrayList.add(Allenamenti("23"))
+
+        newRecyclerView = view.findViewById(R.id.recyclerview)
+
+        TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
+
+        //set recyclerview adapter
+        newRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
+        newRecyclerView.adapter = TimerRecylerViewAllenamenti
+        TimerRecylerViewAllenamenti.notifyDataSetChanged()
+
+        getUserdata()
+        // Inflate the layout for this fragment
+        return view
+    }
+
+    private fun setupRecyclerView(view: View){
+        newRecyclerView = view.findViewById(R.id.recyclerview)
+        //newArrayList = arrayListOf<Allenamenti>()
+        newRecyclerView.apply {
+            layoutManager = LinearLayoutManager(view.context)
+            newRecyclerView.setHasFixedSize(true)
+        }
+    }
+
+
+    private fun getUserdata(){
+        TimerRecylerViewAllenamenti.setOnItemClickListner(object : AdapterRV.onItemClickListner{
+            override fun onItemClick(position: Int) {
+                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
+                startActivity(intent)
+            }
+        })
+
+
+        /* private fun getUserdata() {
+       for(i in numbers.indices){
+            val allenamenti = Allenamenti(numbers[i])
+            newArrayList.add(allenamenti)
+        }
+
+     //   var adapter = AdapterRV(newArrayList)
+        newRecyclerView.adapter = adapter
+        adapter.setOnItemClickListner(object : AdapterRV.onItemClickListner{
+            override fun onItemClick(position: Int) {
+
+                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
+                startActivity(intent)
+            }
+
+        })
+    }*/
+
+    }
+}*/

@@ -9,7 +9,7 @@ import it.pdm.timers.fragments.HomeFragment
 import it.pdm.timers.fragments.TimerFragment
 import it.pdm.timers.fragments.TimerSalvatiFragment
 
-class TimerActivity : AppCompatActivity() {
+class TimerActivity : AppCompatActivity(), Communicator{
     private val timerFragment = TimerFragment()
     private val timerSalvatiFragment = TimerSalvatiFragment()
     private val homeFragment = HomeFragment()
@@ -35,5 +35,16 @@ class TimerActivity : AppCompatActivity() {
         val fragmentTransition = fragmentManager.beginTransaction()
         fragmentTransition.replace(R.id.fragment_container, fragment)
         fragmentTransition.commit()
+    }
+
+    override fun passData(addItem: String) {
+        val bundle = Bundle()
+        bundle.putString("message", addItem)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        timerSalvatiFragment.arguments = bundle
+
+        //passiamo i dati al timerfragmentsalvti e apriamo il fragment
+        transaction.replace(R.id.fragment_container, timerSalvatiFragment).commit()
     }
 }
