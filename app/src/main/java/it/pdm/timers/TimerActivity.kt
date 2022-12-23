@@ -9,7 +9,7 @@ import it.pdm.timers.fragments.HomeFragment
 import it.pdm.timers.fragments.TimerFragment
 import it.pdm.timers.fragments.TimerSalvatiFragment
 
-class TimerActivity : AppCompatActivity(), Communicator {
+class TimerActivity : AppCompatActivity(), Communicator{
     private val timerFragment = TimerFragment()
     private val timerSalvatiFragment = TimerSalvatiFragment()
     private val homeFragment = HomeFragment()
