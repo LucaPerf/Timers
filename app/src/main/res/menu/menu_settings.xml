@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="Settings"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_settings"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+        <item
+            android:id="@+id/profile"
+            android:icon="@drawable/ic_person"
+            android:title="Profilo"/>
+
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Impostazioni"/>
+
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout"/>
+
 
 </menu>

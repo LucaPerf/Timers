@@ -9,9 +9,4 @@
         android:id="@+id/timer_salvati"
         android:title="Timer Salvati"
         android:icon="@drawable/ic_timer_salvati"/>
-
-    <item
-        android:id="@+id/home"
-        android:title="Timer"
-        android:icon="@drawable/ic_home"/>
 </menu>
