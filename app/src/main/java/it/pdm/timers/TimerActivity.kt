@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -33,7 +34,7 @@ class TimerActivity : AppCompatActivity(), Communicator{
         val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
         val navView : NavigationView = findViewById(R.id.nav_view)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, LoginActivity::class.java)
 
         toggle = ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close)
         drawerLayout.addDrawerListener(toggle)
@@ -45,8 +46,8 @@ class TimerActivity : AppCompatActivity(), Communicator{
             it.isCheckable = true
             when(it.itemId){
                 R.id.profile -> replaceFragment(profileFragment)
-                R.id.settings -> replaceFragment(homeFragment)
-                R.id.logout -> replaceFragment(homeFragment)
+                R.id.settings -> Toast.makeText(applicationContext, "Impostazioni", Toast.LENGTH_SHORT).show()
+                R.id.logout -> startActivity(intent)
             }
             true
         }
