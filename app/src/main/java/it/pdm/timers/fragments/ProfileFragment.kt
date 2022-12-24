@@ -27,7 +27,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        val tv_forgot_password = view.findViewById<TextView>(R.id.tv_password_dimenticata)
+        val tv_forgot_password = view.findViewById<TextView>(R.id.tv_modifica_password)
 
         tv_forgot_password.setOnClickListener {
             val intent = Intent(this.requireContext(), PasswordDimenticataActivity::class.java)
