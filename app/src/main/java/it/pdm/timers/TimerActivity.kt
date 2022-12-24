@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import it.pdm.timers.fragments.HomeFragment
+import it.pdm.timers.fragments.ProfileFragment
 import it.pdm.timers.fragments.TimerFragment
 import it.pdm.timers.fragments.TimerSalvatiFragment
 import kotlinx.android.synthetic.main.activity_timer.*
@@ -19,6 +20,7 @@ class TimerActivity : AppCompatActivity(), Communicator{
     private val timerFragment = TimerFragment()
     private val timerSalvatiFragment = TimerSalvatiFragment()
     private val homeFragment = HomeFragment()
+    private val profileFragment = ProfileFragment()
 
     lateinit var toggle: ActionBarDrawerToggle
 
@@ -42,7 +44,7 @@ class TimerActivity : AppCompatActivity(), Communicator{
         navView.setNavigationItemSelectedListener{
             it.isCheckable = true
             when(it.itemId){
-                R.id.profile -> replaceFragment(homeFragment)
+                R.id.profile -> replaceFragment(profileFragment)
                 R.id.settings -> replaceFragment(homeFragment)
                 R.id.logout -> replaceFragment(homeFragment)
             }
