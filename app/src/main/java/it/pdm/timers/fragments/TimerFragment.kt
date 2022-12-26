@@ -2,13 +2,13 @@ package it.pdm.timers.fragments
 
 import android.content.ContentValues
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.EditText
+import android.widget.NumberPicker
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -144,21 +144,38 @@ class TimerFragment : Fragment() {
         }
     }
 
-
-
     private fun addTimers(){
         val inflater = LayoutInflater.from(this.requireContext())
-        val v = inflater.inflate(R.layout.add_item, null)
+        val v = inflater.inflate(R.layout.add_timers, null)
 
-        val minutes = v.findViewById<EditText>(R.id.minutes)
-        val seconds = v.findViewById<EditText>(R.id.seconds)
+        val np_minutes = v.findViewById<NumberPicker>(R.id.np_minutes)
+        val np_seconds = v.findViewById<NumberPicker>(R.id.np_seconds)
+
+        val r_minutes = v.findViewById<TextView>(R.id.result_minutes)
+        val r_seconds = v.findViewById<TextView>(R.id.result_seconds)
+
+        np_minutes.minValue = 0
+        np_minutes.maxValue = 60
+
+        np_seconds.minValue = 0
+        np_seconds.maxValue = 60
+
+        np_minutes.setOnValueChangedListener { _, _, _ ->
+            val minutess = np_minutes.value
+            r_minutes.text = String.format("$minutess")
+        }
+
+        np_seconds.setOnValueChangedListener { _, _, _ ->
+            val secondss = np_seconds.value
+            r_seconds.text = String.format("$secondss")
+        }
 
         val addDialog = AlertDialog.Builder(this.requireContext())
         addDialog.setView(v)
         addDialog.setPositiveButton("Ok"){
                 dialog,_->
-            val min = minutes.text.toString()
-            val sec = seconds.text.toString()
+            val min = r_minutes.text.toString()
+            val sec = r_seconds.text.toString()
 
             mins = min.toInt()
             secs = sec.toInt()
