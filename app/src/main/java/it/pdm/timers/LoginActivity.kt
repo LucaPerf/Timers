@@ -4,8 +4,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var auth : FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -24,14 +32,29 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        auth = FirebaseAuth.getInstance()
+        val mail = findViewById<TextInputEditText>(R.id.et_email)
+        val password = findViewById<TextInputEditText>(R.id.et_password)
         val btnLogin = findViewById<TextView>(R.id.btn_login)
 
         btnLogin.setOnClickListener {
-            val intent = Intent(this, TimerActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
+            val mailString = mail.text.toString()
+            val passwordString = password.text.toString()
+
+            if(mailString.isNotEmpty() && passwordString.isNotEmpty()){
+                auth.signInWithEmailAndPassword(mailString, passwordString).addOnCompleteListener {
+                    if (it.isSuccessful){
+                        val intent = Intent(this, TimerActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(this, "Email o Password errati", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }else{
+                Toast.makeText(this, "Alcuni campi sono vuoti", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
