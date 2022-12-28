@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }else{
-                            Toast.makeText(this, "Errore", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Utente già registrato", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }else{
