@@ -10,48 +10,24 @@
     tools:context=".fragments.ProfileFragment">
 
     <TextView
-        android:id="@+id/tv_title_name"
+        android:id="@+id/tv_title_name_and_surname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nome:"
+        android:text="Nome e Cognome:"
         android:textSize="25dp"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/tv_name_and_surname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mario"
+        android:text="Mario Rossi"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="5dp"/>
-
-    <TextView
-        android:id="@+id/tv_title_surname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cognome:"
-        android:textSize="25dp"
-        android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@id/tv_name"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="15dp"/>
-
-    <TextView
-        android:id="@+id/tv_surname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rossi"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_surname"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_name_and_surname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="5dp"/>
@@ -63,7 +39,7 @@
         android:text="Username:"
         android:textSize="25dp"
         android:textStyle="italic"
-        app:layout_constraintTop_toBottomOf="@id/tv_surname"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_and_surname"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="15dp"/>
 
