@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
+    private lateinit var database: DatabaseReference
+    lateinit var usernameString: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -36,18 +38,34 @@ class RegisterActivity : AppCompatActivity() {
 
             val uasString = nameandsurname.text.toString()
             val mailString = mail.text.toString()
-            val usernameString = username.text.toString()
+            usernameString = username.text.toString()
             val passwordString = password.text.toString()
             val confirmPasswordString = confirmpassword.text.toString()
 
             if(uasString.isNotEmpty() && mailString.isNotEmpty() && usernameString.isNotEmpty() && passwordString.isNotEmpty()){
                 if(passwordString == confirmPasswordString){
+
                     auth.createUserWithEmailAndPassword(mailString, passwordString).addOnCompleteListener {
                         if (it.isSuccessful){
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }else{
                             Toast.makeText(this, "Utente già registrato", Toast.LENGTH_SHORT).show()
+                        }
+                        //creazione del path che vedremo nel firbase
+                        database = FirebaseDatabase.getInstance().getReference("Utenti")
+                        val utenti = User(uasString, mailString, usernameString, passwordString)
+                        //ogni username indicherà la persona all'interno del path nel firebase
+                        database.child(usernameString).setValue(utenti).addOnSuccessListener {
+                            nameandsurname.text?.clear()
+                            mail.text?.clear()
+                            username.text?.clear()
+                            password.text?.clear()
+
+                            Toast.makeText(this, "salvato con successo", Toast.LENGTH_SHORT).show()
+
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Errore", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }else{
@@ -56,6 +74,8 @@ class RegisterActivity : AppCompatActivity() {
             }else{
                 Toast.makeText(this, "Alcuni campi sono vuoti", Toast.LENGTH_SHORT).show()
             }
+
+
 
         }
     }
