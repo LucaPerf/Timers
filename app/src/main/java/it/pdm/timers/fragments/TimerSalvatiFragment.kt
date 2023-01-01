@@ -12,7 +12,11 @@ import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
+import it.pdm.timers.R
 
 /**
  * A simple [Fragment] subclass.
@@ -25,6 +29,11 @@ class TimerSalvatiFragment : Fragment() {
     private lateinit var newArrayList: ArrayList<Allenamenti>
     private lateinit var TimerRecylerViewAllenamenti: AdapterRV
 
+    private var database : DatabaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+        .getReference("Timers")
+        .child(Firebase.auth.currentUser!!.uid)
+        .child("Timers")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,8 +42,8 @@ class TimerSalvatiFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview)
         output = arguments?.getString("message")
 
+        readTimer()
         newArrayList = ArrayList()
-        output?.let { Allenamenti(it) }?.let { newArrayList.add(it) }
 
         TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
 
@@ -56,63 +65,25 @@ class TimerSalvatiFragment : Fragment() {
             }
         })
     }
+
+    private fun readTimer(){
+        database.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                newArrayList.clear()
+                if(snapshot.exists()){
+                    for(data in snapshot.children){
+                        val timers = data.getValue(Allenamenti::class.java)
+                        newArrayList.add(timers!!)
+                    }
+                    output?.let { Allenamenti(it) }?.let { newArrayList.add(it) }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("TEST", error.message)
+            }
+
+        })
+    }
 }
-        //predisposizione recycler view
-      /*  setupRecyclerView(view)
-
-        newArrayList = ArrayList()
-        newArrayList.add(Allenamenti("23"))
-
-        newRecyclerView = view.findViewById(R.id.recyclerview)
-
-        TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
-
-        //set recyclerview adapter
-        newRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        newRecyclerView.adapter = TimerRecylerViewAllenamenti
-        TimerRecylerViewAllenamenti.notifyDataSetChanged()
-
-        getUserdata()
-        // Inflate the layout for this fragment
-        return view
-    }
-
-    private fun setupRecyclerView(view: View){
-        newRecyclerView = view.findViewById(R.id.recyclerview)
-        //newArrayList = arrayListOf<Allenamenti>()
-        newRecyclerView.apply {
-            layoutManager = LinearLayoutManager(view.context)
-            newRecyclerView.setHasFixedSize(true)
-        }
-    }
-
-
-    private fun getUserdata(){
-        TimerRecylerViewAllenamenti.setOnItemClickListner(object : AdapterRV.onItemClickListner{
-            override fun onItemClick(position: Int) {
-                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
-                startActivity(intent)
-            }
-        })
-
-
-        /* private fun getUserdata() {
-       for(i in numbers.indices){
-            val allenamenti = Allenamenti(numbers[i])
-            newArrayList.add(allenamenti)
-        }
-
-     //   var adapter = AdapterRV(newArrayList)
-        newRecyclerView.adapter = adapter
-        adapter.setOnItemClickListner(object : AdapterRV.onItemClickListner{
-            override fun onItemClick(position: Int) {
-
-                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
-                startActivity(intent)
-            }
-
-        })
-    }*/
-
-    }
-}*/
