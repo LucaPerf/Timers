@@ -11,13 +11,18 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.*
 import it.pdm.timers.*
+import it.pdm.timers.R
+import it.pdm.timers.Timer
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.android.synthetic.main.fragment_timer_salvati.*
 import kotlinx.android.synthetic.main.list_item.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -44,14 +49,21 @@ class TimerFragment : Fragment() {
 
     private lateinit var communicator: Communicator
 
+    var databaseReference: DatabaseReference? = null
+    var eventListener: ValueEventListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
+        lv_timer = view.findViewById(R.id.listview)
 
-        //set list
+        setrecyclerview()
+
+
+
+    /*    //set list
         TimeArrayList = ArrayList()
 
         communicator = activity as Communicator
@@ -64,7 +76,7 @@ class TimerFragment : Fragment() {
 
         //set recyclerview adapter
         lv_timer.layoutManager = LinearLayoutManager(this.requireContext())
-        lv_timer.adapter = TimerAdapter
+        lv_timer.adapter = TimerAdapter*/
 
         // Inflate the layout for this fragment
         return view
@@ -92,7 +104,10 @@ class TimerFragment : Fragment() {
 
         fabAdd.setOnClickListener {
             //set dialog
-            addTimers()
+            //addTimers()
+            //onRegisterTimer()
+            val addTimer = AddTimerFragment()
+            createFragment(addTimer)
         }
 
         fabPlay.setOnClickListener {
@@ -100,7 +115,7 @@ class TimerFragment : Fragment() {
         }
 
         fabSave.setOnClickListener {
-            onSavedTimer()
+            createRecyclerView()
         }
     }
 
@@ -202,7 +217,7 @@ class TimerFragment : Fragment() {
     }
 
 
-    private fun onSavedTimer(){
+    private fun createRecyclerView(){
         communicator.passData("")
     }
 
@@ -212,4 +227,42 @@ class TimerFragment : Fragment() {
             addToBackStack(null)
             commit()
         }
+
+    private fun setrecyclerview(){
+        val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
+        lv_timer.layoutManager = gridLayoutManager
+
+        val builder = AlertDialog.Builder(this.requireContext())
+        builder.setCancelable(false)
+        builder.setView(R.layout.progress_bar_loading)
+        val dialog = builder.create()
+        dialog.show()
+
+        TimeArrayList = ArrayList()
+        TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
+        lv_timer.adapter = TimerAdapter
+
+        databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+            .getReference("Timers")
+        dialog.show()
+
+        eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                TimeArrayList.clear()
+                for(itemSnaphot in snapshot.children){
+                    val timer = itemSnaphot.getValue(Timer::class.java)
+                    if(timer != null){
+                        TimeArrayList.add(timer)
+                    }
+                }
+                TimerAdapter.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                dialog.dismiss()
+            }
+
+        })
+    }
 }

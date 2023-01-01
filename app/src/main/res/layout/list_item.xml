@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/recAddTimer">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,7 +39,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_min_2"
+            android:id="@+id/tv_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00"
@@ -62,7 +63,7 @@
             android:layout_marginEnd="93dp"/>
 
         <TextView
-            android:id="@+id/tv_min_1"
+            android:id="@+id/tv_sec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00"
