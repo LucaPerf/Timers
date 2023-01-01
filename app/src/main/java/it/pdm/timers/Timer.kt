@@ -10,4 +10,7 @@ class Timer{
         this.minuti = minuti
         this.secondi = secondi
     }
+    constructor(){
+
+    }
 }
