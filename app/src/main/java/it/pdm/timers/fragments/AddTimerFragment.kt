@@ -66,6 +66,7 @@ class AddTimerFragment : Fragment() {
         val dialog = builder.create()
         dialog.show()
         uploadData()
+        dialog.dismiss()
     }
 
     private fun uploadData(){
