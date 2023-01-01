@@ -2,6 +2,7 @@ package it.pdm.timers.fragments
 
 import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -14,10 +15,20 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import it.pdm.timers.*
+import it.pdm.timers.Timer
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.android.synthetic.main.fragment_timer_salvati.*
 import kotlinx.android.synthetic.main.list_item.view.*
+import java.text.DateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -37,6 +48,11 @@ class TimerFragment : Fragment() {
 
     private var clicked = false
 
+    private val ref = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+        .getReference("Timers")
+    private lateinit var auth: FirebaseAuth
+    private var img: Uri? = null
+
     //recycler view timer
     private lateinit var lv_timer: RecyclerView
     private lateinit var TimeArrayList: ArrayList<Timer>
@@ -44,12 +60,13 @@ class TimerFragment : Fragment() {
 
     private lateinit var communicator: Communicator
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
+
+        auth = Firebase.auth
 
         //set list
         TimeArrayList = ArrayList()
@@ -92,7 +109,10 @@ class TimerFragment : Fragment() {
 
         fabAdd.setOnClickListener {
             //set dialog
-            addTimers()
+            //addTimers()
+            //onRegisterTimer()
+            val addTimer = AddTimerFragment()
+            createFragment(addTimer)
         }
 
         fabPlay.setOnClickListener {
@@ -100,7 +120,7 @@ class TimerFragment : Fragment() {
         }
 
         fabSave.setOnClickListener {
-            onSavedTimer()
+            createRecyclerView()
         }
     }
 
@@ -202,8 +222,78 @@ class TimerFragment : Fragment() {
     }
 
 
-    private fun onSavedTimer(){
+    private fun createRecyclerView(){
         communicator.passData("")
+    }
+
+    private fun onRegisterTimer(){
+        val inflater = LayoutInflater.from(this.requireContext())
+        val v = inflater.inflate(R.layout.add_timers, null)
+
+        val np_minutes = v.findViewById<NumberPicker>(R.id.np_minutes)
+        val np_seconds = v.findViewById<NumberPicker>(R.id.np_seconds)
+
+        val r_minutes = v.findViewById<TextView>(R.id.result_minutes)
+        val r_seconds = v.findViewById<TextView>(R.id.result_seconds)
+
+        np_minutes.minValue = 0
+        np_minutes.maxValue = 60
+
+        np_seconds.minValue = 0
+        np_seconds.maxValue = 60
+
+        np_minutes.setOnValueChangedListener { _, _, _ ->
+            val minutess = np_minutes.value
+            r_minutes.text = String.format("$minutess")
+        }
+
+        np_seconds.setOnValueChangedListener { _, _, _ ->
+            val secondss = np_seconds.value
+            r_seconds.text = String.format("$secondss")
+        }
+
+        val addDialog = AlertDialog.Builder(this.requireContext())
+        addDialog.setView(v)
+        addDialog.setPositiveButton("Ok"){
+                dialog,_->
+            val min = r_minutes.text.toString()
+            val sec = r_seconds.text.toString()
+
+            mins = min.toInt()
+            secs = sec.toInt()
+
+            TimeArrayList.add(Timer("$min", "$sec"))
+            TimerAdapter.notifyDataSetChanged()
+            Log.d(ContentValues.TAG, "Timer aggiunto con successo")
+            dialog.dismiss()
+        }
+        addDialog.setNegativeButton("Cancel"){
+                dialog,_->
+            dialog.dismiss()
+            Log.d(ContentValues.TAG, "Cancel")
+        }
+        addDialog.create()
+        addDialog.show()
+
+        val TAG = "FirebaseStroageManager"
+        val ref = FirebaseStorage.getInstance().reference.child("Timer ${r_minutes.text}${r_seconds.text}")
+
+        ref.putFile(img!!).addOnSuccessListener {
+            ref.downloadUrl.addOnSuccessListener {
+                Log.e(TAG,"$it")
+                saveData(r_minutes.text.toString(), r_seconds.text.toString())
+                Log.d(TAG, "Salvato")
+            }
+        }.addOnFailureListener{
+            Log.e(TAG, "KO")
+        }
+    }
+
+    private fun saveData(minuti : String, secondi: String){
+        val currentUser = auth.currentUser
+        val uid = currentUser!!.uid
+        val timer = Timer(minuti, secondi)
+        ref.child(uid).child("Timers").child(minuti).setValue(timer)
     }
 
     private fun createFragment(fragment: Fragment) =
