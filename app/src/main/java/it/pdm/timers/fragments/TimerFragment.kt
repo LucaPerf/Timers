@@ -2,7 +2,6 @@ package it.pdm.timers.fragments
 
 import android.content.ContentValues
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -12,21 +11,16 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.database.*
 import it.pdm.timers.*
+import it.pdm.timers.R
 import it.pdm.timers.Timer
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.android.synthetic.main.fragment_timer_salvati.*
 import kotlinx.android.synthetic.main.list_item.view.*
-import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -48,11 +42,6 @@ class TimerFragment : Fragment() {
 
     private var clicked = false
 
-    private val ref = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-        .getReference("Timers")
-    private lateinit var auth: FirebaseAuth
-    private var img: Uri? = null
-
     //recycler view timer
     private lateinit var lv_timer: RecyclerView
     private lateinit var TimeArrayList: ArrayList<Timer>
@@ -60,15 +49,21 @@ class TimerFragment : Fragment() {
 
     private lateinit var communicator: Communicator
 
+    var databaseReference: DatabaseReference? = null
+    var eventListener: ValueEventListener? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
+        lv_timer = view.findViewById(R.id.listview)
 
-        auth = Firebase.auth
+        setrecyclerview()
 
-        //set list
+
+
+    /*    //set list
         TimeArrayList = ArrayList()
 
         communicator = activity as Communicator
@@ -81,7 +76,7 @@ class TimerFragment : Fragment() {
 
         //set recyclerview adapter
         lv_timer.layoutManager = LinearLayoutManager(this.requireContext())
-        lv_timer.adapter = TimerAdapter
+        lv_timer.adapter = TimerAdapter*/
 
         // Inflate the layout for this fragment
         return view
@@ -226,80 +221,48 @@ class TimerFragment : Fragment() {
         communicator.passData("")
     }
 
-    private fun onRegisterTimer(){
-        val inflater = LayoutInflater.from(this.requireContext())
-        val v = inflater.inflate(R.layout.add_timers, null)
-
-        val np_minutes = v.findViewById<NumberPicker>(R.id.np_minutes)
-        val np_seconds = v.findViewById<NumberPicker>(R.id.np_seconds)
-
-        val r_minutes = v.findViewById<TextView>(R.id.result_minutes)
-        val r_seconds = v.findViewById<TextView>(R.id.result_seconds)
-
-        np_minutes.minValue = 0
-        np_minutes.maxValue = 60
-
-        np_seconds.minValue = 0
-        np_seconds.maxValue = 60
-
-        np_minutes.setOnValueChangedListener { _, _, _ ->
-            val minutess = np_minutes.value
-            r_minutes.text = String.format("$minutess")
-        }
-
-        np_seconds.setOnValueChangedListener { _, _, _ ->
-            val secondss = np_seconds.value
-            r_seconds.text = String.format("$secondss")
-        }
-
-        val addDialog = AlertDialog.Builder(this.requireContext())
-        addDialog.setView(v)
-        addDialog.setPositiveButton("Ok"){
-                dialog,_->
-            val min = r_minutes.text.toString()
-            val sec = r_seconds.text.toString()
-
-            mins = min.toInt()
-            secs = sec.toInt()
-
-            TimeArrayList.add(Timer("$min", "$sec"))
-            TimerAdapter.notifyDataSetChanged()
-            Log.d(ContentValues.TAG, "Timer aggiunto con successo")
-            dialog.dismiss()
-        }
-        addDialog.setNegativeButton("Cancel"){
-                dialog,_->
-            dialog.dismiss()
-            Log.d(ContentValues.TAG, "Cancel")
-        }
-        addDialog.create()
-        addDialog.show()
-
-        val TAG = "FirebaseStroageManager"
-        val ref = FirebaseStorage.getInstance().reference.child("Timer ${r_minutes.text}${r_seconds.text}")
-
-        ref.putFile(img!!).addOnSuccessListener {
-            ref.downloadUrl.addOnSuccessListener {
-                Log.e(TAG,"$it")
-                saveData(r_minutes.text.toString(), r_seconds.text.toString())
-                Log.d(TAG, "Salvato")
-            }
-        }.addOnFailureListener{
-            Log.e(TAG, "KO")
-        }
-    }
-
-    private fun saveData(minuti : String, secondi: String){
-        val currentUser = auth.currentUser
-        val uid = currentUser!!.uid
-        val timer = Timer(minuti, secondi)
-        ref.child(uid).child("Timers").child(minuti).setValue(timer)
-    }
-
     private fun createFragment(fragment: Fragment) =
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             addToBackStack(null)
             commit()
         }
+
+    private fun setrecyclerview(){
+        val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
+        lv_timer.layoutManager = gridLayoutManager
+
+        val builder = AlertDialog.Builder(this.requireContext())
+        builder.setCancelable(false)
+        builder.setView(R.layout.progress_bar_loading)
+        val dialog = builder.create()
+        dialog.show()
+
+        TimeArrayList = ArrayList()
+        TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
+        lv_timer.adapter = TimerAdapter
+
+        databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+            .getReference("Timers")
+        dialog.show()
+
+        eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                TimeArrayList.clear()
+                for(itemSnaphot in snapshot.children){
+                    val timer = itemSnaphot.getValue(Timer::class.java)
+                    if(timer != null){
+                        TimeArrayList.add(timer)
+                    }
+                }
+                TimerAdapter.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                dialog.dismiss()
+            }
+
+        })
+    }
 }
