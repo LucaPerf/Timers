@@ -40,12 +40,26 @@ class AddTimerFragment : Fragment() {
 
         np_min.setOnValueChangedListener { _, _, _ ->
             val minutess = np_min.value
-            result_minutes.text = String.format("$minutess")
+            if("$minutess".equals("0") || "$minutess".equals("1") || "$minutess".equals("2") || "$minutess".equals("3") ||
+                "$minutess".equals("4") || "$minutess".equals("5") || "$minutess".equals("6") || "$minutess".equals("7") ||
+                "$minutess".equals("8") || "$minutess".equals("9")){
+                result_minutes.text = String.format("0$minutess")
+            }else{
+                result_minutes.text = String.format("$minutess")
+            }
+
         }
 
         np_sec.setOnValueChangedListener { _, _, _ ->
             val secondss = np_sec.value
-            result_seconds.text = String.format("$secondss")
+            if("$secondss".equals("0") || "$secondss".equals("1") || "$secondss".equals("2") || "$secondss".equals("3") ||
+                "$secondss".equals("4") || "$secondss".equals("5") || "$secondss".equals("6") || "$secondss".equals("7") ||
+                "$secondss".equals("8") || "$secondss".equals("9")){
+                result_seconds.text = String.format("0$secondss")
+            }else{
+                result_seconds.text = String.format("$secondss")
+            }
+
         }
 
         var save_btn = view.findViewById<Button>(R.id.savebutton)
