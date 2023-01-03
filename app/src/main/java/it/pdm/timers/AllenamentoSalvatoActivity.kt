@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 
 class AllenamentoSalvatoActivity : AppCompatActivity() {
     private lateinit var ArrayTimer : ArrayList<Timer>
@@ -19,7 +21,7 @@ class AllenamentoSalvatoActivity : AppCompatActivity() {
         var recyclerview = findViewById<RecyclerView>(R.id.recyclerviews)
 
 
-        database = FirebaseDatabase.getInstance().getReference("Timers")
+        database = FirebaseDatabase.getInstance().getReference("Timerss").child(Firebase.auth.currentUser!!.uid)
         ArrayTimer = ArrayList()
         val gridLayoutManager = GridLayoutManager(this, 1)
         recyclerview.layoutManager = gridLayoutManager

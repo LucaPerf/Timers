@@ -12,7 +12,9 @@ import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
 import it.pdm.timers.R
 import kotlinx.android.synthetic.main.activity_allenamento_salvato.*
@@ -73,7 +75,7 @@ class TimerSalvatiFragment : Fragment() {
         recyclerView.adapter = AllenamentiAdapter
 
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Allenamenti")
+            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid)
         dialog.show()
 
         eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
