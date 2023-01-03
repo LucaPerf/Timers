@@ -13,7 +13,9 @@ import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import it.pdm.timers.R
 import it.pdm.timers.Timer
 import kotlinx.android.synthetic.main.fragment_add_timer.*
@@ -88,7 +90,7 @@ class AddTimerFragment : Fragment() {
         val currentData = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
         FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timers").child(currentData)
+            .getReference("Timerss").child(Firebase.auth.currentUser!!.uid).child("Timer")
             .setValue(dataClass).addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Toast.makeText(this.requireContext(), "Aggiunto", Toast.LENGTH_SHORT).show()

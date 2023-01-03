@@ -13,11 +13,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
 import it.pdm.timers.R
 import it.pdm.timers.Timer
@@ -253,7 +256,7 @@ class TimerFragment : Fragment() {
         lv_timer.adapter = TimerAdapter
 
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timers")
+            .getReference("Timerss").child(Firebase.auth.currentUser!!.uid)
         dialog.show()
 
         eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
@@ -292,7 +295,7 @@ class TimerFragment : Fragment() {
         val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
         FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Allenamenti").child(currentDate)
+            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid).child(currentDate)
             .setValue(dataClass).addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
