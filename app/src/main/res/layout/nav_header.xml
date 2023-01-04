@@ -9,35 +9,18 @@
     android:background="@color/white">
 
     <TextView
-        android:id="@+id/user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:textSize="20dp"
-        android:text="Mario"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/user_surname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:textSize="20dp"
-        android:text="Rossi"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
-
-    <TextView
+        android:id="@+id/mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
         android:text="mariorossi@gmail.com"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:background="@color/underline"/>
 
 </LinearLayout>

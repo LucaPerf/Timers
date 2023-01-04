@@ -1,7 +1,7 @@
 package it.pdm.timers.fragments
 
-import android.content.ContentValues
-import android.content.Intent
+import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,10 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
+import it.pdm.timers.R
+import kotlinx.android.synthetic.main.activity_allenamento_salvato.*
 
 /**
  * A simple [Fragment] subclass.
@@ -20,21 +25,27 @@ import it.pdm.timers.*
  * create an instance of this fragment.
  */
 class TimerSalvatiFragment : Fragment() {
-    var output : String ?= ""
+    var output: String? = ""
 
     private lateinit var newArrayList: ArrayList<Allenamenti>
-    private lateinit var TimerRecylerViewAllenamenti: AdapterRV
+    private lateinit var AllenamentiAdapter: AdapterRV
+    private lateinit var recyclerView: RecyclerView
+    var databaseReference: DatabaseReference? = null
+    var eventListener: ValueEventListener? = null
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_timer_salvati, container, false)
-        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview)
-        output = arguments?.getString("message")
+        recyclerView = view.findViewById(R.id.recyclerview)
 
+        setrecyclerview()
+        /*  output = arguments?.getString("message")
+
+        //  readTimer()
         newArrayList = ArrayList()
-        output?.let { Allenamenti(it) }?.let { newArrayList.add(it) }
 
         TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
 
@@ -44,11 +55,51 @@ class TimerSalvatiFragment : Fragment() {
         TimerRecylerViewAllenamenti.notifyDataSetChanged()
 
         getUserdata()
-
+*/
         return view
     }
 
-    private fun getUserdata() {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun setrecyclerview(){
+        val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
+        recyclerView.layoutManager = gridLayoutManager
+
+        val builder = AlertDialog.Builder(this.requireContext())
+        builder.setCancelable(false)
+        builder.setView(R.layout.progress_bar_loading)
+        val dialog = builder.create()
+        dialog.show()
+
+        newArrayList = ArrayList()
+        AllenamentiAdapter = AdapterRV(this.requireActivity(), newArrayList)
+        recyclerView.adapter = AllenamentiAdapter
+
+        databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid)
+        dialog.show()
+
+        eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                newArrayList.clear()
+                for(itemSnapshot in snapshot.children){
+                    val dataClass = itemSnapshot.getValue(Allenamenti::class.java)
+                    if(dataClass != null){
+                        newArrayList.add(dataClass)
+                    }
+                }
+                AllenamentiAdapter.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                dialog.dismiss()
+            }
+
+        })
+    }
+}
+
+  /*  private fun getUserdata() {
         TimerRecylerViewAllenamenti.setOnItemClickListner(object : AdapterRV.onItemClickListner {
             override fun onItemClick(position: Int) {
                 val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
@@ -56,63 +107,25 @@ class TimerSalvatiFragment : Fragment() {
             }
         })
     }
-}
-        //predisposizione recycler view
-      /*  setupRecyclerView(view)
+}*/
 
-        newArrayList = ArrayList()
-        newArrayList.add(Allenamenti("23"))
+ /*   private fun readTimer(){
+        database.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                newArrayList.clear()
+                if(snapshot.exists()){
+                    for(data in snapshot.children){
+                        val timers = data.getValue(Allenamenti::class.java)
+                        newArrayList.add(timers!!)
+                    }
+                    output?.let { Allenamenti(it) }?.let { newArrayList.add(it) }
 
-        newRecyclerView = view.findViewById(R.id.recyclerview)
-
-        TimerRecylerViewAllenamenti = AdapterRV(this.requireActivity(), newArrayList)
-
-        //set recyclerview adapter
-        newRecyclerView.layoutManager = LinearLayoutManager(this.requireContext())
-        newRecyclerView.adapter = TimerRecylerViewAllenamenti
-        TimerRecylerViewAllenamenti.notifyDataSetChanged()
-
-        getUserdata()
-        // Inflate the layout for this fragment
-        return view
-    }
-
-    private fun setupRecyclerView(view: View){
-        newRecyclerView = view.findViewById(R.id.recyclerview)
-        //newArrayList = arrayListOf<Allenamenti>()
-        newRecyclerView.apply {
-            layoutManager = LinearLayoutManager(view.context)
-            newRecyclerView.setHasFixedSize(true)
-        }
-    }
-
-
-    private fun getUserdata(){
-        TimerRecylerViewAllenamenti.setOnItemClickListner(object : AdapterRV.onItemClickListner{
-            override fun onItemClick(position: Int) {
-                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
-                startActivity(intent)
+                }
             }
-        })
 
-
-        /* private fun getUserdata() {
-       for(i in numbers.indices){
-            val allenamenti = Allenamenti(numbers[i])
-            newArrayList.add(allenamenti)
-        }
-
-     //   var adapter = AdapterRV(newArrayList)
-        newRecyclerView.adapter = adapter
-        adapter.setOnItemClickListner(object : AdapterRV.onItemClickListner{
-            override fun onItemClick(position: Int) {
-
-                val intent = Intent(requireContext(), AllenamentoSalvatoActivity::class.java)
-                startActivity(intent)
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("TEST", error.message)
             }
 
         })
     }*/
-
-    }
-}*/
