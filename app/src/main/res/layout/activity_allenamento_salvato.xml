@@ -7,7 +7,7 @@
     tools:context=".AllenamentoSalvatoActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/recyclerviews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,6 +26,6 @@
         android:backgroundTint="@color/primary_color"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerview"/>
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerviews"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

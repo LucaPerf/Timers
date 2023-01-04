@@ -1,5 +1,13 @@
 package it.pdm.timers
 
-import androidx.recyclerview.widget.RecyclerView
+class Allenamenti{
+    var number_recyclerview: String? = null
 
-data class Allenamenti(var numbers_recyclerview: String)
+    constructor(number_recyclerview: String?){
+        this.number_recyclerview = number_recyclerview
+    }
+
+    constructor(){
+
+    }
+}
