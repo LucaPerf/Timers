@@ -48,7 +48,7 @@ class RegisterActivity : AppCompatActivity() {
 
             if (uasString.isNotEmpty() && mailString.isNotEmpty() && usernameString.isNotEmpty() && passwordString.isNotEmpty()) {
                 if(!isValidNameAndSurname(uasString)){
-                    Toast.makeText(this, "inserire un nome e cognome di almeno 5 caratteri", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "inserire un nome e cognome di almeno 4 caratteri", Toast.LENGTH_SHORT).show()
                     check = false
                 }
 
@@ -58,12 +58,12 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 if(!isValidUsername(usernameString)){
-                    Toast.makeText(this, "inserire username di almeno 4 caratteri", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "inserire username di almeno 3 caratteri", Toast.LENGTH_SHORT).show()
                     check = false
                 }
 
                 if(!isValidPassword(passwordString)){
-                    Toast.makeText(this, "inserire una password di almeno 5 caratteri", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "inserire una password di almeno 4 caratteri", Toast.LENGTH_SHORT).show()
                     check = false
                 }
 
