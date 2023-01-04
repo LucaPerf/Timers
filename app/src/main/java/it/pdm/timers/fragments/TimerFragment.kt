@@ -2,6 +2,7 @@ package it.pdm.timers.fragments
 
 import android.content.ContentValues
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -9,18 +10,24 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.NumberPicker
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
 import it.pdm.timers.R
 import it.pdm.timers.Timer
 import kotlinx.android.synthetic.main.fragment_timer.*
 import kotlinx.android.synthetic.main.fragment_timer_salvati.*
 import kotlinx.android.synthetic.main.list_item.view.*
+import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -58,6 +65,7 @@ class TimerFragment : Fragment() {
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
         lv_timer = view.findViewById(R.id.listview)
+        communicator = activity as Communicator
 
         setrecyclerview()
 
@@ -82,6 +90,7 @@ class TimerFragment : Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -92,6 +101,7 @@ class TimerFragment : Fragment() {
         openFunction(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun openFunction(view: View) {
         val fab = view?.findViewById<FloatingActionButton>(R.id.fab)
         val fabAdd = view?.findViewById<FloatingActionButton>(R.id.fab_add)
@@ -115,7 +125,8 @@ class TimerFragment : Fragment() {
         }
 
         fabSave.setOnClickListener {
-            createRecyclerView()
+            //createRecyclerView()
+            saveData()
         }
     }
 
@@ -183,6 +194,8 @@ class TimerFragment : Fragment() {
         np_seconds.setOnValueChangedListener { _, _, _ ->
             val secondss = np_seconds.value
             r_seconds.text = String.format("$secondss")
+
+
         }
 
         val addDialog = AlertDialog.Builder(this.requireContext())
@@ -243,7 +256,7 @@ class TimerFragment : Fragment() {
         lv_timer.adapter = TimerAdapter
 
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timers")
+            .getReference("Timerss").child(Firebase.auth.currentUser!!.uid)
         dialog.show()
 
         eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
@@ -264,5 +277,33 @@ class TimerFragment : Fragment() {
             }
 
         })
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun saveData(){
+        val builder = AlertDialog.Builder(this.requireContext())
+        builder.setCancelable(false)
+        builder.setView(R.layout.progress_bar_loading)
+        val dialog = builder.create()
+        dialog.show()
+        uploadData()
+        dialog.dismiss()
+    }
+
+    private fun uploadData(){
+        val dataClass = Allenamenti(listview.toString())
+        val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
+
+        FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid).child(currentDate)
+            .setValue(dataClass).addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
+                   // createRecyclerView()
+                    createFragment(timerSalvatiFragment)
+                }
+            }.addOnFailureListener { e ->
+                Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
+            }
     }
 }
