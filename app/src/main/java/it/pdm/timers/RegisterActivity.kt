@@ -17,7 +17,7 @@ import java.util.regex.Pattern
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var database: DatabaseReference
-    lateinit var usernameString: String
+    var usernameString: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -46,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
             val confirmPasswordString = confirmpassword.text.toString()
             var check = true
 
-            if (uasString.isNotEmpty() && mailString.isNotEmpty() && usernameString.isNotEmpty() && passwordString.isNotEmpty()) {
+            if (uasString.isNotEmpty() && mailString.isNotEmpty() && usernameString!!.isNotEmpty() && passwordString.isNotEmpty()) {
                 if(!isValidNameAndSurname(uasString)){
                     Toast.makeText(this, "inserire un nome e cognome di almeno 4 caratteri", Toast.LENGTH_SHORT).show()
                     check = false
@@ -85,14 +85,13 @@ class RegisterActivity : AppCompatActivity() {
                             //creazione del path che vedremo nel firbase
                             database =
                                 FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-                                    .getReference("Utenti").child(Firebase.auth.currentUser!!.uid)
-                            val utenti = User(uasString, mailString, usernameString, passwordString)
+                                    .getReference("Utenti")
+                            val utenti = User(mailString, uasString, usernameString)
                             //ogni username indicherà la persona all'interno del path nel firebase
-                            database.child(usernameString).setValue(utenti).addOnSuccessListener {
-                                nameandsurname.text?.clear()
+                            database.child(Firebase.auth.currentUser!!.uid).setValue(utenti).addOnSuccessListener {
                                 mail.text?.clear()
+                                nameandsurname.text?.clear()
                                 username.text?.clear()
-                                password.text?.clear()
 
                                 Toast.makeText(this, "salvato con successo", Toast.LENGTH_SHORT)
                                     .show()
