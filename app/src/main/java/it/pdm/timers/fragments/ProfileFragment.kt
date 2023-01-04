@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import it.pdm.timers.PasswordDimenticataActivity
@@ -18,12 +19,11 @@ import com.google.firebase.ktx.Firebase
 
 class ProfileFragment : Fragment() {
     private lateinit var database : DatabaseReference
-    private var auth = Firebase.auth
+    private lateinit var auth : FirebaseAuth
 
     private lateinit var nas : TextView
     private lateinit var username : TextView
     private lateinit var mail : TextView
-    private lateinit var password : TextView
 
 
     override fun onCreateView(
@@ -34,7 +34,6 @@ class ProfileFragment : Fragment() {
         nas = view.findViewById(R.id.tv_name_and_surname)
         username = view.findViewById(R.id.tv_username)
         mail = view.findViewById(R.id.tv_email)
-        password = view.findViewById(R.id.tv_password)
         return view
     }
 
@@ -53,20 +52,17 @@ class ProfileFragment : Fragment() {
     }
 
     private fun insertData(){
-        val currentUser = auth.currentUser
-        val uid = currentUser!!.uid
-        database = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app/")
+        database = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Utenti")
-            .child(uid)
+            .child(Firebase.auth.currentUser!!.uid)
 
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
                     val user = snapshot.getValue(User::class.java)!!
-                    nas.text = user.NameAndSurname
                     mail.text = user.email
+                    nas.text = user.NameAndSurname
                     username.text = user.username
-                    password.text = user.password
                 }
             }
 
@@ -75,26 +71,4 @@ class ProfileFragment : Fragment() {
             }
         })
     }
-/*
-    private fun readData(username : String){
-        database = FirebaseDatabase.getInstance().getReference("Utenti")
-        database.child(username).get().addOnSuccessListener {
-            if(it.exists()){
-                val nas = it.child("nameAndSurname").value
-                val userName = it.child("username").value
-                val mail = it.child("email").value
-                val password = it.child("password").value
-
-                tv_nas.text = nas.toString()
-                tv_username.text = userName.toString()
-                tv_mail.text = mail.toString()
-                tv_password.text = password.toString()
-            }else{
-                Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
-            }
-
-        }.addOnFailureListener {
-            Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
-        }
-    }*/
 }
