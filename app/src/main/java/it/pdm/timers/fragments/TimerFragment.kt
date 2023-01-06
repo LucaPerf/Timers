@@ -256,7 +256,7 @@ class TimerFragment : Fragment() {
         lv_timer.adapter = TimerAdapter
 
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timerss").child(Firebase.auth.currentUser!!.uid)
+            .getReference("Timers").child(Firebase.auth.currentUser!!.uid)
         dialog.show()
 
         eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
