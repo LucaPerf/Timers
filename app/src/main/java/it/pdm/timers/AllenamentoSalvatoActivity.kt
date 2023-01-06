@@ -92,8 +92,15 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
 
             val timerTask = object  : TimerTask(){
                 override fun run() {
-                    size -= 1
-                    readTimers()
+                    if(size > 1){
+                        size -= 1
+                        playAlarm()
+                        readTimers()
+                    }else{
+                        size -= 1
+                        playAlarmFinish()
+                        readTimers()
+                    }
                 }
             }
             timer.schedule(timerTask, sum.toLong())
@@ -109,11 +116,20 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
         startActivity(i)
     }
 
-    private fun returnAllenamento(){
+    private fun returnAllenamento() {
         val i = Intent(this, TimerActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(i)
     }
 
+    private fun playAlarm(){
+        val intent = Intent(this, BackgroundMusicService::class.java)
+        startService(intent)
+    }
+
+    private fun playAlarmFinish(){
+        val intent = Intent(this, BackgroundAlarmFinishService::class.java)
+        startService(intent)
+    }
 }
