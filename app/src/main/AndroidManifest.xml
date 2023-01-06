@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Timers">
+
+        <service android:name=".BackgroundMusicService"/>
+        <service android:name=".BackgroundAlarmFinishService"/>
+
         <activity
             android:name=".AllenamentoSalvatoActivity"
             android:exported="false" />
