@@ -90,7 +90,7 @@ class AddTimerFragment : Fragment() {
         val currentData = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
         FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timerss").child(Firebase.auth.currentUser!!.uid).child("Timer")
+            .getReference("Timers").child(Firebase.auth.currentUser!!.uid).child(currentData)
             .setValue(dataClass).addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Toast.makeText(this.requireContext(), "Aggiunto", Toast.LENGTH_SHORT).show()
