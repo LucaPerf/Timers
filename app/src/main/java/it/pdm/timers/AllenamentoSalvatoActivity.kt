@@ -1,27 +1,50 @@
 package it.pdm.timers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import java.util.*
+import kotlin.collections.ArrayList
 
-class AllenamentoSalvatoActivity : AppCompatActivity() {
-    private lateinit var ArrayTimer : ArrayList<Timer>
-    private lateinit var database : DatabaseReference
-    private lateinit var adapter : Adapter
+class AllenamentoSalvatoActivity : AppCompatActivity(){
+    lateinit var ArrayTimer: ArrayList<Timer>
+    private lateinit var recyclerview: RecyclerView
+    private lateinit var database: DatabaseReference
+    private lateinit var adapter: Adapter
     var eventListener: ValueEventListener? = null
+    private var min = 0
+    private var sec = 0
+    private var sum = 0
+    private var currentTimer = 0
+    private var size = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_allenamento_salvato)
 
-        var recyclerview = findViewById<RecyclerView>(R.id.recyclerviews)
+        recyclerview = findViewById(R.id.recyclerviews)
 
+        val button_avvio = findViewById<Button>(R.id.btn_avvio)
 
-        database = FirebaseDatabase.getInstance().getReference("Timerss").child(Firebase.auth.currentUser!!.uid)
+        readAllenamento()
+
+        button_avvio.setOnClickListener {
+            readTimers()
+        }
+
+    }
+
+    private fun readAllenamento() {
+        database = FirebaseDatabase.getInstance().getReference("Timers")
+            .child(Firebase.auth.currentUser!!.uid)
+
         ArrayTimer = ArrayList()
         val gridLayoutManager = GridLayoutManager(this, 1)
         recyclerview.layoutManager = gridLayoutManager
@@ -32,10 +55,11 @@ class AllenamentoSalvatoActivity : AppCompatActivity() {
         eventListener = database!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 ArrayTimer.clear()
-                for(itemSnaphot in snapshot.children){
+                for (itemSnaphot in snapshot.children) {
                     val timer = itemSnaphot.getValue(Timer::class.java)
-                    if(timer != null){
+                    if (timer != null) {
                         ArrayTimer.add(timer)
+                        size = ArrayTimer.size
                     }
                 }
                 adapter.notifyDataSetChanged()
@@ -43,9 +67,53 @@ class AllenamentoSalvatoActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                Log.e("error", "error")
             }
 
         })
     }
+
+    private fun readTimers() {
+        if (size != 0){
+            val array = ArrayTimer.get(currentTimer)
+
+            val minuti = array.minuti.toString()
+            min = minuti.toInt()
+
+            val secondi = array.secondi.toString()
+            sec = secondi.toInt()
+
+            sum = (min * 60 * 1000) + (sec * 1000)
+
+            playTimers(min, sec)
+            currentTimer += 1
+
+            val timer = java.util.Timer()
+
+            val timerTask = object  : TimerTask(){
+                override fun run() {
+                    size -= 1
+                    readTimers()
+                }
+            }
+            timer.schedule(timerTask, sum.toLong())
+        }else{
+            returnAllenamento()
+        }
+    }
+
+    private fun playTimers(min: Int, sec: Int) {
+        val i = Intent(this.baseContext, CountdownActivity::class.java)
+        i.putExtra("MINUTI", min)
+        i.putExtra("SECONDI", sec)
+        startActivity(i)
+    }
+
+    private fun returnAllenamento(){
+        val i = Intent(this, TimerActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(i)
+    }
+
 }

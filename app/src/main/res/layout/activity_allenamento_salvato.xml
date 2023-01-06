@@ -17,6 +17,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <Button
+        android:id="@+id/btn_avvio"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:text="AVVIO"
