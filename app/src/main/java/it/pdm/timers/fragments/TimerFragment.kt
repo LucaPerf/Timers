@@ -37,8 +37,11 @@ import kotlin.collections.ArrayList
  * create an instance of this fragment.
  */
 class TimerFragment : Fragment() {
-    var mins = 0
-    var secs = 0
+    private var min = 0
+    private var sec = 0
+    private var sum = 0
+    private var currentTimer = 0
+    private var size = 0
 
     private val timerSalvatiFragment = TimerSalvatiFragment()
 
@@ -121,7 +124,7 @@ class TimerFragment : Fragment() {
         }
 
         fabPlay.setOnClickListener {
-            playTimers(mins, secs)
+            readTimers()
         }
 
         fabSave.setOnClickListener {
@@ -205,9 +208,6 @@ class TimerFragment : Fragment() {
             val min = r_minutes.text.toString()
             val sec = r_seconds.text.toString()
 
-            mins = min.toInt()
-            secs = sec.toInt()
-
             TimeArrayList.add(Timer("$min", "$sec"))
             TimerAdapter.notifyDataSetChanged()
             Log.d(ContentValues.TAG, "Timer aggiunto con successo")
@@ -221,14 +221,6 @@ class TimerFragment : Fragment() {
         addDialog.create()
         addDialog.show()
     }
-
-    private fun playTimers(min:Int, sec:Int){
-        val i =Intent(requireActivity().baseContext, CountdownActivity::class.java)
-        i.putExtra("MINUTI", min)
-        i.putExtra("SECONDI", sec)
-        startActivity(i)
-    }
-
 
     private fun createRecyclerView(){
         communicator.passData("")
@@ -256,7 +248,7 @@ class TimerFragment : Fragment() {
         lv_timer.adapter = TimerAdapter
 
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timerss").child(Firebase.auth.currentUser!!.uid)
+            .getReference("Timers").child(Firebase.auth.currentUser!!.uid)
         dialog.show()
 
         eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
@@ -266,6 +258,7 @@ class TimerFragment : Fragment() {
                     val timer = itemSnaphot.getValue(Timer::class.java)
                     if(timer != null){
                         TimeArrayList.add(timer)
+                        size = TimeArrayList.size
                     }
                 }
                 TimerAdapter.notifyDataSetChanged()
@@ -305,5 +298,65 @@ class TimerFragment : Fragment() {
             }.addOnFailureListener { e ->
                 Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun readTimers() {
+        if (size != 0){
+            val array = TimeArrayList.get(currentTimer)
+
+            val minuti = array.minuti.toString()
+            min = minuti.toInt()
+
+            val secondi = array.secondi.toString()
+            sec = secondi.toInt()
+
+            sum = (min * 60 * 1000) + (sec * 1000)
+
+            playTimers(min, sec)
+            currentTimer += 1
+
+            val timer = java.util.Timer()
+
+            val timerTask = object  : TimerTask(){
+                override fun run() {
+                    if(size > 1){
+                        size -= 1
+                        playAlarm()
+                        readTimers()
+                    }else{
+                        size -= 1
+                        playAlarmFinish()
+                        readTimers()
+                    }
+                }
+            }
+            timer.schedule(timerTask, sum.toLong())
+        }else{
+            returnAllenamento()
+        }
+    }
+
+    private fun playTimers(min: Int, sec: Int) {
+        val i = Intent(this.requireContext(), CountdownActivity::class.java)
+        i.putExtra("MINUTI", min)
+        i.putExtra("SECONDI", sec)
+        startActivity(i)
+    }
+
+    private fun returnAllenamento() {
+        val i = Intent(this.requireContext(), TimerActivity::class.java)
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(i)
+    }
+
+    private fun playAlarm(){
+        val intent = Intent(this.requireContext(), BackgroundMusicService::class.java)
+        activity?.startService(intent)
+    }
+
+    private fun playAlarmFinish(){
+        val intent = Intent(this.requireContext(), BackgroundAlarmFinishService::class.java)
+        activity?.startService(intent)
     }
 }

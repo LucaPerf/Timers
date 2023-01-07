@@ -1,9 +1,9 @@
 package it.pdm.timers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -12,6 +12,7 @@ import java.util.*
 class CountdownActivity : AppCompatActivity() {
     var txt_time: TextView? = null
     var img_play: ImageView? = null
+    var img_delete: ImageView? = null
     var progressbar: ProgressBar? = null
     var timerLengthMin: Int? = null
     var timerLengthSec: Int? = null
@@ -38,6 +39,13 @@ class CountdownActivity : AppCompatActivity() {
             }
         }
 
+        img_delete?.setOnClickListener {
+            val i = Intent(this, TimerActivity::class.java)
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(i)
+        }
+
         //start with time and progressbar complete
         updateCountDownText()
         setProgressBarValues()
@@ -47,6 +55,7 @@ class CountdownActivity : AppCompatActivity() {
         txt_time = findViewById(R.id.tv_countdown)
         progressbar = findViewById(R.id.progress_coundown)
         img_play = findViewById(R.id.iv_play)
+        img_delete = findViewById(R.id.tv_delete)
     }
 
     fun getData(){
