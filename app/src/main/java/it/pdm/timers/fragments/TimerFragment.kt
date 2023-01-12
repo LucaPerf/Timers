@@ -13,13 +13,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isNotEmpty
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.childEvents
+import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
 import it.pdm.timers.R
@@ -43,6 +44,10 @@ class TimerFragment : Fragment() {
     private var currentTimer = 0
     private var size = 0
 
+    var number_path = 0
+    private var numero = 0
+
+
     private val timerSalvatiFragment = TimerSalvatiFragment()
 
     private val open : Animation by lazy { AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
@@ -60,7 +65,10 @@ class TimerFragment : Fragment() {
     private lateinit var communicator: Communicator
 
     var databaseReference: DatabaseReference? = null
+    var databaseReference2: DatabaseReference? = null
     var eventListener: ValueEventListener? = null
+    var eventListener2: ValueEventListener? = null
+    var query: Query? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,8 +79,6 @@ class TimerFragment : Fragment() {
         communicator = activity as Communicator
 
         setrecyclerview()
-
-
 
     /*    //set list
         TimeArrayList = ArrayList()
@@ -119,8 +125,9 @@ class TimerFragment : Fragment() {
             //set dialog
             //addTimers()
             //onRegisterTimer()
-            val addTimer = AddTimerFragment()
-            createFragment(addTimer)
+            createRecyclerView()
+            /*val addTimer = AddTimerFragment()
+            createFragment(addTimer)*/
         }
 
         fabPlay.setOnClickListener {
@@ -128,8 +135,8 @@ class TimerFragment : Fragment() {
         }
 
         fabSave.setOnClickListener {
-            //createRecyclerView()
-            saveData()
+            //saveData()
+            changePath()
         }
     }
 
@@ -173,7 +180,7 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private fun addTimers(){
+    private fun addTimer(){
         val inflater = LayoutInflater.from(this.requireContext())
         val v = inflater.inflate(R.layout.add_timers, null)
 
@@ -197,8 +204,6 @@ class TimerFragment : Fragment() {
         np_seconds.setOnValueChangedListener { _, _, _ ->
             val secondss = np_seconds.value
             r_seconds.text = String.format("$secondss")
-
-
         }
 
         val addDialog = AlertDialog.Builder(this.requireContext())
@@ -223,7 +228,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun createRecyclerView(){
-        communicator.passData("")
+        communicator.passData(number_path)
     }
 
     private fun createFragment(fragment: Fragment) =
@@ -233,9 +238,15 @@ class TimerFragment : Fragment() {
             commit()
         }
 
-    private fun setrecyclerview(){
+    fun setrecyclerview(){
+        databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+            .getReference("Timers").child(Firebase.auth.currentUser!!.uid)
+
+        query = databaseReference?.orderByChild(number_path.toString())?.limitToLast(1)
+
         val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
         lv_timer.layoutManager = gridLayoutManager
+        Log.e("path", number_path.toString())
 
         val builder = AlertDialog.Builder(this.requireContext())
         builder.setCancelable(false)
@@ -247,22 +258,35 @@ class TimerFragment : Fragment() {
         TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
         lv_timer.adapter = TimerAdapter
 
-        databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timers").child(Firebase.auth.currentUser!!.uid)
-        dialog.show()
-
-        eventListener = databaseReference!!.addValueEventListener(object : ValueEventListener{
+        eventListener = query!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                TimeArrayList.clear()
-                for(itemSnaphot in snapshot.children){
-                    val timer = itemSnaphot.getValue(Timer::class.java)
-                    if(timer != null){
-                        TimeArrayList.add(timer)
-                        size = TimeArrayList.size
+                //number_path = snapshot.childrenCount.toInt()
+
+                val np = number_path
+                Log.e("np", np.toString())
+
+                databaseReference2 = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+                    .getReference("Timers").child(Firebase.auth.currentUser!!.uid).child(np.toString())
+
+                eventListener2 = databaseReference2?.addValueEventListener(object : ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        TimeArrayList.clear()
+                        for(itemSnaphot in snapshot.children){
+                            val timer = itemSnaphot.getValue(Timer::class.java)
+                            if(timer != null){
+                                TimeArrayList.add(timer)
+                                size = TimeArrayList.size
+                            }
+                        }
+                        TimerAdapter.notifyDataSetChanged()
+                        dialog.dismiss()
                     }
-                }
-                TimerAdapter.notifyDataSetChanged()
-                dialog.dismiss()
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -344,7 +368,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun returnAllenamento() {
-        val i = Intent(this.requireContext(), TimerActivity::class.java)
+        val i = Intent(this.requireContext(), TimerActivity2::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(i)
@@ -358,5 +382,10 @@ class TimerFragment : Fragment() {
     private fun playAlarmFinish(){
         val intent = Intent(this.requireContext(), BackgroundAlarmFinishService::class.java)
         activity?.startService(intent)
+    }
+
+    private fun changePath(){
+        number_path += 1
+        setrecyclerview()
     }
 }
