@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
+import it.pdm.timers.fragments.AddTimerFragment
 import it.pdm.timers.fragments.ProfileFragment
 import it.pdm.timers.fragments.TimerFragment
 import it.pdm.timers.fragments.TimerSalvatiFragment
@@ -51,7 +52,6 @@ class TimerActivity : AppCompatActivity(), Communicator{
         toggle.syncState()
 
         auth = Firebase.auth
-
 
         //mostrare in alto a destra le impostazioni
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -99,7 +99,6 @@ class TimerActivity : AppCompatActivity(), Communicator{
         })
     }
 
-
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransition = fragmentManager.beginTransaction()
@@ -108,15 +107,17 @@ class TimerActivity : AppCompatActivity(), Communicator{
         drawerLayout.closeDrawers()
     }
 
-    override fun passData(addItem: String) {
+    override fun passData(addItem: Int) {
         val bundle = Bundle()
-        bundle.putString("message", addItem)
+        bundle.putString("message", addItem.toString())
 
         val transaction = this.supportFragmentManager.beginTransaction()
-        timerSalvatiFragment.arguments = bundle
 
-        //passiamo i dati al timerfragmentsalvti e apriamo il fragment
-        transaction.replace(R.id.fragment_container, timerSalvatiFragment).commit()
+        val addtimer = AddTimerFragment()
+        addtimer.arguments = bundle
+
+        //passiamo i dati ad addtimer
+        transaction.replace(R.id.fragment_container, addtimer)
     }
 
     //usata aprire la navigation drawer
