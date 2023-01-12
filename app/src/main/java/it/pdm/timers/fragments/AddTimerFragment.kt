@@ -1,16 +1,15 @@
 package it.pdm.timers.fragments
 
 import android.app.AlertDialog
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.NumberPicker
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.firebase.auth.ktx.auth
@@ -24,12 +23,17 @@ import java.util.*
 
 class AddTimerFragment : Fragment() {
 
+    var output: Int ?= 0
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_timer, container, false)
+
+        output = arguments?.getInt("message")
+        Log.e("path", output.toString())
 
         val np_min = view.findViewById<NumberPicker>(R.id.np_minutes)
         val np_sec = view.findViewById<NumberPicker>(R.id.np_seconds)
@@ -67,7 +71,7 @@ class AddTimerFragment : Fragment() {
         var save_btn = view.findViewById<Button>(R.id.savebutton)
 
         save_btn.setOnClickListener {
-            saveData()
+            saveDataTimer()
         }
 
         // Inflate the layout for this fragment
@@ -75,31 +79,35 @@ class AddTimerFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun saveData(){
+    private fun saveDataTimer(){
         val builder = AlertDialog.Builder(this.requireContext())
         builder.setCancelable(false)
         builder.setView(R.layout.progress_bar_loading)
         val dialog = builder.create()
         dialog.show()
-        uploadData()
+        uploadDataTimer()
         dialog.dismiss()
     }
 
-    private fun uploadData(){
+    private fun uploadDataTimer(){
         val dataClass = Timer(result_minutes?.text.toString(), result_seconds?.text.toString())
         val currentData = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
-        FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Timers").child(Firebase.auth.currentUser!!.uid).child(currentData)
-            .setValue(dataClass).addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    Toast.makeText(this.requireContext(), "Aggiunto", Toast.LENGTH_SHORT).show()
-                    val timer = TimerFragment()
-                    createFragment(timer)
+        output?.let {
+            FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference("Timers").child(Firebase.auth.currentUser!!.uid).child(it.toString())
+                .child(currentData)
+                .setValue(dataClass).addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        Toast.makeText(this.requireContext(), "Aggiunto", Toast.LENGTH_SHORT).show()
+                        val timerFragment = TimerFragment()
+                        timerFragment.number_path = output!!.toInt()
+                        createFragment(timerFragment)
+                    }
+                }.addOnFailureListener { e ->
+                    Toast.makeText(this.requireContext(), "Errore", Toast.LENGTH_SHORT).show()
                 }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this.requireContext(), "Errore", Toast.LENGTH_SHORT).show()
-            }
+        }
     }
 
     private fun createFragment(fragment: Fragment) =
