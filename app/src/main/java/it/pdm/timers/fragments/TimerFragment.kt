@@ -45,8 +45,6 @@ class TimerFragment : Fragment() {
     private var size = 0
 
     var number_path = 0
-    private var numero = 0
-
 
     private val timerSalvatiFragment = TimerSalvatiFragment()
 
@@ -79,6 +77,9 @@ class TimerFragment : Fragment() {
         communicator = activity as Communicator
 
         setrecyclerview()
+
+        val intent = Intent(this.requireContext(), AllenamentoSalvatoActivity::class.java)
+        intent.putExtra("path", number_path.toString())
 
     /*    //set list
         TimeArrayList = ArrayList()
@@ -135,8 +136,8 @@ class TimerFragment : Fragment() {
         }
 
         fabSave.setOnClickListener {
-            //saveData()
             changePath()
+            saveData()
         }
     }
 
