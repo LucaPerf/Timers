@@ -243,7 +243,7 @@ class TimerFragment : Fragment() {
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Timers").child(Firebase.auth.currentUser!!.uid)
 
-        query = databaseReference?.orderByChild(number_path.toString())?.limitToLast(1)
+        query = databaseReference?.orderByChild("Allenamento " + number_path.toString())?.limitToLast(1)
 
         val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
         lv_timer.layoutManager = gridLayoutManager
@@ -263,7 +263,7 @@ class TimerFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //number_path = snapshot.childrenCount.toInt()
 
-                val np = number_path
+                val np = "Allenamento " + number_path
                 Log.e("np", np.toString())
 
                 databaseReference2 = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
