@@ -12,7 +12,6 @@ import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
 
 class AllenamentoSalvatoActivity : AppCompatActivity(){
     lateinit var ArrayTimer: ArrayList<Timer>
@@ -45,11 +44,14 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
 
     private fun readAllenamento() {
         val intent = intent
-        number_path = intent.getStringExtra("path").toString()
-        Log.e("number: ", number_path)
+        val s = intent.getStringExtra("Timers")
+        number_path = intent.getStringExtra("Timers").toString()
+        if (s != null) {
+            Log.e("number: ", s)
+        }
 
         database = FirebaseDatabase.getInstance().getReference("Timers")
-            .child(Firebase.auth.currentUser!!.uid).child(number_path)
+            .child(Firebase.auth.currentUser!!.uid).child("Allenamento " + s)
 
         ArrayTimer = ArrayList()
         val gridLayoutManager = GridLayoutManager(this, 1)
