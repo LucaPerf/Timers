@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.childEvents
-import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
 import it.pdm.timers.R
@@ -77,9 +75,6 @@ class TimerFragment : Fragment() {
         communicator = activity as Communicator
 
         setrecyclerview()
-
-        val intent = Intent(this.requireContext(), AllenamentoSalvatoActivity::class.java)
-        intent.putExtra("path", number_path.toString())
 
     /*    //set list
         TimeArrayList = ArrayList()
