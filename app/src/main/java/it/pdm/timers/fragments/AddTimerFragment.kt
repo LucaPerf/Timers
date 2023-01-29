@@ -95,7 +95,7 @@ class AddTimerFragment : Fragment() {
 
         output?.let {
             FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-                .getReference("Timers").child(Firebase.auth.currentUser!!.uid).child(it.toString())
+                .getReference("Timers").child(Firebase.auth.currentUser!!.uid).child("Allenamento " + it.toString())
                 .child(currentData)
                 .setValue(dataClass).addOnCompleteListener { task ->
                     if(task.isSuccessful){

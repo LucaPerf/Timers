@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.childEvents
-import com.google.firebase.database.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
 import it.pdm.timers.R
@@ -45,8 +43,7 @@ class TimerFragment : Fragment() {
     private var size = 0
 
     var number_path = 0
-    private var numero = 0
-
+    private lateinit var tv_recyclerview_number : TextView
 
     private val timerSalvatiFragment = TimerSalvatiFragment()
 
@@ -135,7 +132,7 @@ class TimerFragment : Fragment() {
         }
 
         fabSave.setOnClickListener {
-            //saveData()
+            saveData()
             changePath()
         }
     }
@@ -242,7 +239,7 @@ class TimerFragment : Fragment() {
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Timers").child(Firebase.auth.currentUser!!.uid)
 
-        query = databaseReference?.orderByChild(number_path.toString())?.limitToLast(1)
+        query = databaseReference?.orderByChild("Allenamento " + number_path.toString())?.limitToLast(1)
 
         val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
         lv_timer.layoutManager = gridLayoutManager
@@ -262,7 +259,7 @@ class TimerFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 //number_path = snapshot.childrenCount.toInt()
 
-                val np = number_path
+                val np = "Allenamento " + number_path
                 Log.e("np", np.toString())
 
                 databaseReference2 = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
@@ -308,13 +305,18 @@ class TimerFragment : Fragment() {
     }
 
     private fun uploadData(){
-        val dataClass = Allenamenti(listview.toString())
+        val dataClass = Allenamenti(number_path.toString())
         val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
         FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid).child(currentDate)
+            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid).child("Allenamento " + number_path)
             .setValue(dataClass).addOnCompleteListener { task ->
                 if(task.isSuccessful){
+                    val inflater = LayoutInflater.from(this.requireContext())
+                    val v = inflater.inflate(R.layout.recylerview_item, null)
+
+                    tv_recyclerview_number = v.findViewById(R.id.tv_recyclerview_numbers)
+                    tv_recyclerview_number.text = number_path.toString()
                     Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
                    // createRecyclerView()
                     createFragment(timerSalvatiFragment)

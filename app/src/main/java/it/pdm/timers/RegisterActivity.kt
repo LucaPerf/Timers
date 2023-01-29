@@ -118,7 +118,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun isValidPassword(pass: String?): Boolean{
-        return pass != null && pass.length >= 4
+        return pass != null && pass.length >= 6
     }
 
     private fun isValidNameAndSurname(userandsurname: String?): Boolean{

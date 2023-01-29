@@ -17,9 +17,11 @@ class AdapterRV(private val context: Activity, private val allenamentiList: Arra
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.number_rv.text = allenamentiList[position].number_recyclerview
         holder.recCard.setOnClickListener {
             val intent = Intent(context, AllenamentoSalvatoActivity::class.java)
-            intent.putExtra("Timers", allenamentiList[holder.adapterPosition].number_recyclerview)
+            //intent.putExtra("Timers", allenamentiList[holder.adapterPosition].number_recyclerview)
+            intent.putExtra("Timers", holder.number_rv.text.toString())
             context.startActivity(intent)
         }
     }
@@ -27,15 +29,14 @@ class AdapterRV(private val context: Activity, private val allenamentiList: Arra
     override fun getItemCount(): Int {
         return allenamentiList.size
     }
-
 }
 
 class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
     var recCard : CardView
-    var name_rv : TextView
+    var number_rv : TextView
 
     init {
         recCard = itemView.findViewById(R.id.recAllenamenti)
-        name_rv = itemView.findViewById(R.id.tv_recyclerview_name)
+        number_rv = itemView.findViewById(R.id.tv_recyclerview_numbers)
     }
 }
