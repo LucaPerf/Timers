@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -25,9 +24,8 @@ import it.pdm.timers.fragments.ProfileFragment
 import it.pdm.timers.fragments.TimerFragment
 import it.pdm.timers.fragments.TimerSalvatiFragment
 import kotlinx.android.synthetic.main.activity_timer.*
-import java.nio.file.attribute.AclEntry
 
-class TimerActivity : AppCompatActivity(), Communicator{
+class TimerActivity2 : AppCompatActivity(), Communicator {
     private val timerFragment = TimerFragment()
     private val timerSalvatiFragment = TimerSalvatiFragment()
     private val profileFragment = ProfileFragment()
@@ -40,8 +38,10 @@ class TimerActivity : AppCompatActivity(), Communicator{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_timer)
-        replaceFragment(timerFragment)
+        setContentView(R.layout.activity_timer2)
+
+        val fragmentA = TimerFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragmentA).commit()
 
         val btn_navigation = findViewById<TextView>(R.id.bottom_navigation) as BottomNavigationView
         val drawerLayout : DrawerLayout = findViewById(R.id.drawerLayout)
@@ -75,6 +75,18 @@ class TimerActivity : AppCompatActivity(), Communicator{
         }
     }
 
+    override fun passData(addItem: Int) {
+        val bundle = Bundle()
+        bundle.putInt("message", addItem)
+
+        val transaction = this.supportFragmentManager.beginTransaction()
+        val fragmentB = AddTimerFragment()
+        fragmentB.arguments = bundle
+
+        transaction.replace(R.id.fragment_container, fragmentB)
+        transaction.commit()
+    }
+
     private fun set_navheader() {
         val inflater = LayoutInflater.from(this)
         val v = inflater.inflate(R.layout.nav_header, null)
@@ -105,19 +117,6 @@ class TimerActivity : AppCompatActivity(), Communicator{
         fragmentTransition.replace(R.id.fragment_container, fragment)
         fragmentTransition.commit()
         drawerLayout.closeDrawers()
-    }
-
-    override fun passData(addItem: Int) {
-        val bundle = Bundle()
-        bundle.putString("message", addItem.toString())
-
-        val transaction = this.supportFragmentManager.beginTransaction()
-
-        val addtimer = AddTimerFragment()
-        addtimer.arguments = bundle
-
-        //passiamo i dati ad addtimer
-        transaction.replace(R.id.fragment_container, addtimer)
     }
 
     //usata aprire la navigation drawer

@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             if(mailString.isNotEmpty() && passwordString.isNotEmpty()){
                 auth.signInWithEmailAndPassword(mailString, passwordString).addOnCompleteListener {
                     if (it.isSuccessful){
-                        val intent = Intent(this, TimerActivity::class.java)
+                        val intent = Intent(this, TimerActivity2::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)

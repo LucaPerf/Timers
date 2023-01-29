@@ -24,6 +24,7 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
     private var sum = 0
     private var currentTimer = 0
     private var size = 0
+    private var number_path = "1"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +43,15 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
     }
 
     private fun readAllenamento() {
+        val intent = intent
+        val s = intent.getStringExtra("Timers")
+        number_path = intent.getStringExtra("Timers").toString()
+        if (s != null) {
+            Log.e("number: ", s)
+        }
+
         database = FirebaseDatabase.getInstance().getReference("Timers")
-            .child(Firebase.auth.currentUser!!.uid)
+            .child(Firebase.auth.currentUser!!.uid).child("Allenamento " + s)
 
         ArrayTimer = ArrayList()
         val gridLayoutManager = GridLayoutManager(this, 1)
