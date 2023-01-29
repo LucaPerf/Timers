@@ -67,6 +67,11 @@ class TimerFragment : Fragment() {
     var eventListener2: ValueEventListener? = null
     var query: Query? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,6 +99,20 @@ class TimerFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        activity?.menuInflater?.inflate(R.menu.menu_move_path, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.back -> backPath()
+            R.id.next -> nextPath()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -387,6 +406,20 @@ class TimerFragment : Fragment() {
     }
 
     private fun changePath(){
+        number_path += 1
+        setrecyclerview()
+    }
+
+    private fun backPath(){
+        if (number_path != 0){
+            number_path -= 1
+            setrecyclerview()
+        }else{
+            Toast.makeText(this.requireContext(), "Non ci sono timer precedenti", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun nextPath(){
         number_path += 1
         setrecyclerview()
     }
