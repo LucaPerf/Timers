@@ -17,7 +17,8 @@ class AdapterRV(private val context: Activity, private val allenamentiList: Arra
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-       holder.recCard.setOnClickListener {
+        holder.number_rv.text = allenamentiList[position].number_recyclerview
+        holder.recCard.setOnClickListener {
             val intent = Intent(context, AllenamentoSalvatoActivity::class.java)
             //intent.putExtra("Timers", allenamentiList[holder.adapterPosition].number_recyclerview)
             intent.putExtra("Timers", holder.number_rv.text.toString())
