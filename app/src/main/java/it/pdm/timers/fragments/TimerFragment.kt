@@ -60,6 +60,7 @@ class TimerFragment : Fragment() {
     private lateinit var TimerAdapter: Adapter
 
     private lateinit var communicator: Communicator
+    private lateinit var number_allenamento : TextView
 
     var databaseReference: DatabaseReference? = null
     var databaseReference2: DatabaseReference? = null
@@ -78,6 +79,7 @@ class TimerFragment : Fragment() {
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
         lv_timer = view.findViewById(R.id.listview)
+        number_allenamento = view.findViewById(R.id.tv_number_allenamento)
         communicator = activity as Communicator
 
         setrecyclerview()
@@ -263,6 +265,8 @@ class TimerFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
         lv_timer.layoutManager = gridLayoutManager
         Log.e("path", number_path.toString())
+
+        number_allenamento.text = number_path.toString()
 
         val builder = AlertDialog.Builder(this.requireContext())
         builder.setCancelable(false)
