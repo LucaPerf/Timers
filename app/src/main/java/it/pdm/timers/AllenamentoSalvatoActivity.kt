@@ -130,7 +130,7 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
     }
 
     private fun returnAllenamento() {
-        val i = Intent(this, TimerActivity::class.java)
+        val i = Intent(this, TimerActivity2::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(i)
