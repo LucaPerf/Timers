@@ -35,4 +35,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_recyclerview_name"/>
 
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:drawableEnd="@drawable/ic_delete"
+        android:layout_marginStart="272dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_recyclerview_numbers"/>
+
+
+
 </androidx.cardview.widget.CardView>
