@@ -42,7 +42,7 @@ class TimerFragment : Fragment() {
     private var currentTimer = 0
     private var size = 0
 
-    var number_path = 0
+    var number_path = 1
     private lateinit var tv_recyclerview_number : TextView
 
     private val timerSalvatiFragment = TimerSalvatiFragment()
@@ -419,7 +419,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun backPath(){
-        if (number_path != 0){
+        if (number_path > 1){
             number_path -= 1
             setrecyclerview()
         }else{

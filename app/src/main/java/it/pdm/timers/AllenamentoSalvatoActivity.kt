@@ -23,7 +23,7 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
     private var min = 0
     private var sec = 0
     private var sum = 0
-    private var currentTimer = 0
+    private var currentTimer = 1
     private var size = 0
     private var number_path = "1"
 
