@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
+    android:background="@drawable/background"
     tools:context=".TimerActivity2">
 
     <RelativeLayout
@@ -26,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#3F51B5"
+            android:background="@color/purple_700"
             app:itemIconTint="#FFFF"
             app:itemTextColor="#FFFF"
             app:menu="@menu/menu_navigation" />
