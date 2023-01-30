@@ -61,7 +61,7 @@ class ProfileFragment : Fragment() {
                 if(snapshot.exists()) {
                     val user = snapshot.getValue(User::class.java)!!
                     mail.text = user.email
-                    nas.text = user.NameAndSurname
+                    nas.text = user.nameAndSurname
                     username.text = user.username
                 }
             }
