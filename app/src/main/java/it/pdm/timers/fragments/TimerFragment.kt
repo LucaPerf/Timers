@@ -350,38 +350,42 @@ class TimerFragment : Fragment() {
     }
 
     private fun readTimers() {
-        if (size != 0){
-            val array = TimeArrayList.get(currentTimer)
+        if (TimeArrayList.isEmpty()){
+            Toast.makeText(this.requireContext(), "Non ci sono timer", Toast.LENGTH_SHORT).show()
+        }else{
+            if (size != 0){
+                val array = TimeArrayList.get(currentTimer)
 
-            val minuti = array.minuti.toString()
-            min = minuti.toInt()
+                val minuti = array.minuti.toString()
+                min = minuti.toInt()
 
-            val secondi = array.secondi.toString()
-            sec = secondi.toInt()
+                val secondi = array.secondi.toString()
+                sec = secondi.toInt()
 
-            sum = (min * 60 * 1000) + (sec * 1000)
+                sum = (min * 60 * 1000) + (sec * 1000)
 
-            playTimers(min, sec)
-            currentTimer += 1
+                playTimers(min, sec)
+                currentTimer += 1
 
-            val timer = java.util.Timer()
+                val timer = java.util.Timer()
 
-            val timerTask = object  : TimerTask(){
-                override fun run() {
-                    if(size > 1){
-                        size -= 1
-                        playAlarm()
-                        readTimers()
-                    }else{
-                        size -= 1
-                        playAlarmFinish()
-                        readTimers()
+                val timerTask = object  : TimerTask(){
+                    override fun run() {
+                        if(size > 1){
+                            size -= 1
+                            playAlarm()
+                            readTimers()
+                        }else{
+                            size -= 1
+                            playAlarmFinish()
+                            readTimers()
+                        }
                     }
                 }
+                timer.schedule(timerTask, sum.toLong())
+            }else{
+                returnAllenamento()
             }
-            timer.schedule(timerTask, sum.toLong())
-        }else{
-            returnAllenamento()
         }
     }
 
