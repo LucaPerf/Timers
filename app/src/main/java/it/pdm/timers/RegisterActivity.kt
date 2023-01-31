@@ -14,10 +14,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import java.util.regex.Pattern
 
+/**
+ * Classe che gestisce la Registrazione di un utente
+ */
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var database: DatabaseReference
     var usernameString: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -38,7 +42,6 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         btn_Register.setOnClickListener {
-
             val uasString = nameandsurname.text.toString()
             val mailString = mail.text.toString()
             usernameString = username.text.toString()
@@ -63,16 +66,16 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 if(!isValidPassword(passwordString)){
-                    Toast.makeText(this, "inserire una password di almeno 4 caratteri", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "inserire una password di almeno 6 caratteri", Toast.LENGTH_SHORT).show()
                     check = false
                 }
 
                 if (passwordString != confirmPasswordString) {
-                    Toast.makeText(this, "Password non sono uguali", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Le password non sono uguali", Toast.LENGTH_SHORT).show()
                     check = false
                 }
-                if(check){
 
+                if(check){
                     auth.createUserWithEmailAndPassword(mailString, passwordString)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
@@ -82,12 +85,12 @@ class RegisterActivity : AppCompatActivity() {
                                 Toast.makeText(this, "Utente già registrato", Toast.LENGTH_SHORT)
                                     .show()
                             }
-                            //creazione del path che vedremo nel firbase
+
                             database =
                                 FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
                                     .getReference("Utenti")
                             val utenti = User(mailString, uasString, usernameString)
-                            //ogni username indicherà la persona all'interno del path nel firebase
+
                             database.child(Firebase.auth.currentUser!!.uid).setValue(utenti).addOnSuccessListener {
                                 mail.text?.clear()
                                 nameandsurname.text?.clear()
@@ -109,6 +112,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Metodo che controlla la validità della Mail
+     */
     private fun isValidEmail(email: String): Boolean{
         val EMAIL_PATTERN = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
         + "[A-Za-z0-9-]+(||-[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
@@ -117,14 +123,24 @@ class RegisterActivity : AppCompatActivity() {
         return matcher.matches()
     }
 
+    /**
+     * Metodo che controlla la validità della Password
+     */
     private fun isValidPassword(pass: String?): Boolean{
         return pass != null && pass.length >= 6
     }
 
+    /**
+     * Metodo che controlla la validità del Nome e Cognome
+     */
     private fun isValidNameAndSurname(userandsurname: String?): Boolean{
         return userandsurname != null && userandsurname.length >= 4
     }
 
+
+    /**
+     * Metodo che controlla la validità dello Username
+     */
     private fun isValidUsername(username: String?): Boolean{
         return username != null && username.length >= 3
     }

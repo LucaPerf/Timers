@@ -3,7 +3,6 @@ package it.pdm.timers.fragments
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +20,10 @@ import kotlinx.android.synthetic.main.fragment_add_timer.*
 import java.text.DateFormat
 import java.util.*
 
+/**
+ * Classe che gestisce l'aggiunta di un nuovo Timer
+ */
 class AddTimerFragment : Fragment() {
-
     var output: Int ?= 0
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -33,8 +34,6 @@ class AddTimerFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_add_timer, container, false)
 
         output = arguments?.getInt("message")
-        Log.e("path", output.toString())
-
         val np_min = view.findViewById<NumberPicker>(R.id.np_minutes)
         val np_sec = view.findViewById<NumberPicker>(R.id.np_seconds)
 
@@ -74,10 +73,12 @@ class AddTimerFragment : Fragment() {
             saveDataTimer()
         }
 
-        // Inflate the layout for this fragment
         return view
     }
 
+    /**
+     * Metodo che permette di mostrare la progress_bar_loading
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun saveDataTimer(){
         val builder = AlertDialog.Builder(this.requireContext())
@@ -89,6 +90,9 @@ class AddTimerFragment : Fragment() {
         dialog.dismiss()
     }
 
+    /**
+     * Metodo che permette di salvare i dati nell'apposito path di Firebase
+     */
     private fun uploadDataTimer(){
         val dataClass = Timer(result_minutes?.text.toString(), result_seconds?.text.toString())
         val currentData = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
@@ -102,7 +106,7 @@ class AddTimerFragment : Fragment() {
                         Toast.makeText(this.requireContext(), "Aggiunto", Toast.LENGTH_SHORT).show()
                         val timerFragment = TimerFragment()
                         timerFragment.number_path = output!!.toInt()
-                        createFragment(timerFragment)
+                        openFragment(timerFragment)
                     }
                 }.addOnFailureListener { e ->
                     Toast.makeText(this.requireContext(), "Errore", Toast.LENGTH_SHORT).show()
@@ -110,7 +114,10 @@ class AddTimerFragment : Fragment() {
         }
     }
 
-    private fun createFragment(fragment: Fragment) =
+    /**
+     * Metodo che permette di aprire il fragment definito come argomento
+     */
+    private fun openFragment(fragment: Fragment) =
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             addToBackStack(null)

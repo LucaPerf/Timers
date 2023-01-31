@@ -1,6 +1,5 @@
 package it.pdm.timers
 
-import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,10 +9,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import java.util.*
 
+/**
+ * Classe che gestisce il Countdown di un singolo Timer
+ */
 class CountdownActivity : AppCompatActivity() {
     var txt_time: TextView? = null
     var img_play: ImageView? = null
-    var img_delete: ImageView? = null
     var progressbar: ProgressBar? = null
     var timerLengthMin: Int? = null
     var timerLengthSec: Int? = null
@@ -34,7 +35,6 @@ class CountdownActivity : AppCompatActivity() {
 
         val color = Color.parseColor("#FF000000")
         img_play?.setColorFilter(color)
-        img_delete?.setColorFilter(color)
 
         img_play!!.setOnClickListener{
             if(timerState == TimerState.STARTED){
@@ -44,14 +44,6 @@ class CountdownActivity : AppCompatActivity() {
             }
         }
 
-        img_delete?.setOnClickListener {
-            val i = Intent(this, TimerActivity2::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(i)
-        }
-
-        //start with time and progressbar complete
         updateCountDownText()
         setProgressBarValues()
     }
@@ -60,9 +52,11 @@ class CountdownActivity : AppCompatActivity() {
         txt_time = findViewById(R.id.tv_countdown)
         progressbar = findViewById(R.id.progress_coundown)
         img_play = findViewById(R.id.iv_play)
-        img_delete = findViewById(R.id.tv_delete)
     }
 
+    /**
+     * Metodo che permette di leggere il valore dei minuti e secondi
+     */
     fun getData(){
         timerLengthMin = intent.getIntExtra("MINUTI", 1)
         timerLengthSec = intent.getIntExtra("SECONDI", 1)
@@ -76,6 +70,9 @@ class CountdownActivity : AppCompatActivity() {
         progressbar!!.setProgress(timeLeftInMillis.toInt() / 1000)
     }
 
+    /**
+     * Metodo che permette di far partire il Countdown
+     */
     private fun startTimer(){
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000){
             override fun onTick(millisUntilFinished: Long){
@@ -92,13 +89,18 @@ class CountdownActivity : AppCompatActivity() {
         timerState = TimerState.STARTED
     }
 
+    /**
+     * Metodo che permette di mettere in pausa il Countdown
+     */
     private fun pauseTimer(){
         countDownTimer.cancel()
         timerState = TimerState.STOPPED
         img_play!!.setImageResource(R.drawable.ic_play)
-
     }
 
+    /**
+     * Metodo che aggiorna, a ogni secondo, il testo del Countdown
+     */
     private fun updateCountDownText(){
         val minutes: Int = (timeLeftInMillis.toInt() / 1000) / 60
         val seconds: Int = (timeLeftInMillis.toInt() / 1000) % 60

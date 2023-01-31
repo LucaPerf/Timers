@@ -5,6 +5,9 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.IBinder
 
+/**
+ * Classe che gestisce il suono di avviso quando è scaduto il tempo totale dell'Allenamento
+ */
 class BackgroundAlarmFinishService: Service() {
     private lateinit var player: MediaPlayer
     override fun onCreate() {

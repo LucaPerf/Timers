@@ -17,11 +17,14 @@ import it.pdm.timers.R
 import it.pdm.timers.User
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Classe gestisce il fragment dei dati personali dell'Utente
+ */
 class ProfileFragment : Fragment() {
     private lateinit var database : DatabaseReference
     private lateinit var auth : FirebaseAuth
 
-    private lateinit var nas : TextView
+    private lateinit var NameSurname : TextView
     private lateinit var username : TextView
     private lateinit var mail : TextView
 
@@ -30,13 +33,13 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        nas = view.findViewById(R.id.tv_name_and_surname)
+        NameSurname = view.findViewById(R.id.tv_name_and_surname)
         username = view.findViewById(R.id.tv_username)
         mail = view.findViewById(R.id.tv_email)
         auth = Firebase.auth
 
-        val tv_forgot_password = view.findViewById<TextView>(R.id.tv_modifica_password)
-        tv_forgot_password.setOnClickListener {
+        val changed_password = view.findViewById<TextView>(R.id.tv_modifica_password)
+        changed_password.setOnClickListener {
             auth.signOut()
             val intent = Intent(this.requireContext(), PasswordDimenticataActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -52,6 +55,9 @@ class ProfileFragment : Fragment() {
         insertData()
     }
 
+    /**
+     * Metodo che permette di leggere i dati nell'apposito path di Firebase e riportarli nel fragment
+     */
     private fun insertData(){
         database = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Utenti")
@@ -62,7 +68,7 @@ class ProfileFragment : Fragment() {
                 if(snapshot.exists()) {
                     val user = snapshot.getValue(User::class.java)!!
                     mail.text = user.email
-                    nas.text = user.nameAndSurname
+                    NameSurname.text = user.nameAndSurname
                     username.text = user.username
                 }
             }

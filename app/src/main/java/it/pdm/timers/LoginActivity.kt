@@ -7,10 +7,10 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 
+/**
+ * Classe che gestisce il Login di un utente
+ */
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
 
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             if(mailString.isNotEmpty() && passwordString.isNotEmpty()){
                 auth.signInWithEmailAndPassword(mailString, passwordString).addOnCompleteListener {
                     if (it.isSuccessful){
-                        val intent = Intent(this, TimerActivity2::class.java)
+                        val intent = Intent(this, TimerActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)

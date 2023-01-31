@@ -18,7 +18,7 @@ import com.google.firebase.ktx.Firebase
 class AdapterRV(private val context: Activity, private val allenamentiList: ArrayList<Allenamenti>):
     RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.recylerview_item, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.allenamento_item, parent, false)
         return MyViewHolder(view)
     }
 
@@ -26,7 +26,6 @@ class AdapterRV(private val context: Activity, private val allenamentiList: Arra
         holder.number_rv.text = allenamentiList[position].number_recyclerview
         holder.recCard.setOnClickListener {
             val intent = Intent(context, AllenamentoSalvatoActivity::class.java)
-            //intent.putExtra("Timers", allenamentiList[holder.adapterPosition].number_recyclerview)
             intent.putExtra("Timers", holder.number_rv.text.toString())
             context.startActivity(intent)
         }

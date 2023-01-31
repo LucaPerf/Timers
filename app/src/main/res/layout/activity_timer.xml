@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
+    android:background="@color/background"
     tools:context=".TimerActivity">
 
     <RelativeLayout
@@ -14,18 +15,23 @@
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/bottom_navigation"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#3F51B5"
+            android:background="@color/purple_700"
             app:itemIconTint="#FFFF"
             app:itemTextColor="#FFFF"
-            app:menu="@menu/menu_navigation"/>
+            app:menu="@menu/menu_navigation" />
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -35,5 +41,4 @@
         app:menu="@menu/menu_settings"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"/>
-
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -9,10 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Timers">
-        <activity
-            android:name=".TimerActivity2"
-            android:exported="false" />
-
         <service android:name=".BackgroundMusicService" />
         <service android:name=".BackgroundAlarmFinishService" />
 
@@ -23,19 +19,16 @@
             android:name=".CountdownActivity"
             android:exported="false" />
         <activity
-            android:name=".SetTimeActivity"
-            android:exported="false" />
-        <activity
             android:name=".PasswordDimenticataActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TimerActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TimerActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
