@@ -326,35 +326,42 @@ class TimerFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun saveData(){
-        val builder = AlertDialog.Builder(this.requireContext())
-        builder.setCancelable(false)
-        builder.setView(R.layout.progress_bar_loading)
-        val dialog = builder.create()
-        dialog.show()
-        uploadData()
-        dialog.dismiss()
+        if (TimeArrayList.isEmpty()){
+            Toast.makeText(this.requireContext(), "Non ci sono timer", Toast.LENGTH_SHORT).show()
+            number_path -= 1
+        }else {
+            val builder = AlertDialog.Builder(this.requireContext())
+            builder.setCancelable(false)
+            builder.setView(R.layout.progress_bar_loading)
+            val dialog = builder.create()
+            dialog.show()
+            uploadData()
+            dialog.dismiss()
+        }
     }
 
     private fun uploadData(){
-        val dataClass = Allenamenti(number_path.toString())
-        val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
-        FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid).child("Allenamento " + number_path)
-            .setValue(dataClass).addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    val inflater = LayoutInflater.from(this.requireContext())
-                    val v = inflater.inflate(R.layout.recylerview_item, null)
+            val dataClass = Allenamenti(number_path.toString())
+            val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
-                    tv_recyclerview_number = v.findViewById(R.id.tv_recyclerview_numbers)
-                    tv_recyclerview_number.text = number_path.toString()
-                    Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
-                   // createRecyclerView()
-                    createFragment(timerSalvatiFragment)
+            FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid)
+                .child("Allenamento " + number_path)
+                .setValue(dataClass).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val inflater = LayoutInflater.from(this.requireContext())
+                        val v = inflater.inflate(R.layout.recylerview_item, null)
+
+                        tv_recyclerview_number = v.findViewById(R.id.tv_recyclerview_numbers)
+                        tv_recyclerview_number.text = number_path.toString()
+                        Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
+                        // createRecyclerView()
+                        createFragment(timerSalvatiFragment)
+                    }
+                }.addOnFailureListener { e ->
+                    Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
                 }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
-            }
     }
 
     private fun readTimers() {
@@ -427,7 +434,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun backPath(){
-        if (number_path > 1){
+        if (number_path > 0){
             number_path -= 1
             setrecyclerview()
         }else{
