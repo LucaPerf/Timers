@@ -3,7 +3,6 @@ package it.pdm.timers.fragments
 import android.app.AlertDialog
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +24,6 @@ import java.util.*
  * Classe che gestisce l'aggiunta di un nuovo Timer
  */
 class AddTimerFragment : Fragment() {
-
     var output: Int ?= 0
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -36,8 +34,6 @@ class AddTimerFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_add_timer, container, false)
 
         output = arguments?.getInt("message")
-        Log.e("path", output.toString())
-
         val np_min = view.findViewById<NumberPicker>(R.id.np_minutes)
         val np_sec = view.findViewById<NumberPicker>(R.id.np_seconds)
 
@@ -77,7 +73,6 @@ class AddTimerFragment : Fragment() {
             saveDataTimer()
         }
 
-        // Inflate the layout for this fragment
         return view
     }
 
@@ -111,7 +106,7 @@ class AddTimerFragment : Fragment() {
                         Toast.makeText(this.requireContext(), "Aggiunto", Toast.LENGTH_SHORT).show()
                         val timerFragment = TimerFragment()
                         timerFragment.number_path = output!!.toInt()
-                        createFragment(timerFragment)
+                        openFragment(timerFragment)
                     }
                 }.addOnFailureListener { e ->
                     Toast.makeText(this.requireContext(), "Errore", Toast.LENGTH_SHORT).show()
@@ -122,7 +117,7 @@ class AddTimerFragment : Fragment() {
     /**
      * Metodo che permette di aprire il fragment definito come argomento
      */
-    private fun createFragment(fragment: Fragment) =
+    private fun openFragment(fragment: Fragment) =
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             addToBackStack(null)

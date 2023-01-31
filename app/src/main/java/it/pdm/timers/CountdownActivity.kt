@@ -48,13 +48,12 @@ class CountdownActivity : AppCompatActivity() {
         }
 
         img_delete?.setOnClickListener {
-            val i = Intent(this, TimerActivity2::class.java)
+            val i = Intent(this, TimerActivity::class.java)
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(i)
         }
 
-        //start with time and progressbar complete
         updateCountDownText()
         setProgressBarValues()
     }
@@ -108,7 +107,6 @@ class CountdownActivity : AppCompatActivity() {
         countDownTimer.cancel()
         timerState = TimerState.STOPPED
         img_play!!.setImageResource(R.drawable.ic_play)
-
     }
 
     /**

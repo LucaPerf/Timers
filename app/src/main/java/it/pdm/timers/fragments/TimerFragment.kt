@@ -1,15 +1,12 @@
 package it.pdm.timers.fragments
 
-import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.NumberPicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -24,10 +21,6 @@ import com.google.firebase.ktx.Firebase
 import it.pdm.timers.*
 import it.pdm.timers.R
 import it.pdm.timers.Timer
-import kotlinx.android.synthetic.main.fragment_timer.*
-import kotlinx.android.synthetic.main.fragment_timer_salvati.*
-import kotlinx.android.synthetic.main.list_item.view.*
-import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -40,7 +33,6 @@ class TimerFragment : Fragment() {
     private var sum = 0
     private var currentTimer = 0
     private var size = 0
-
     var number_path = 0
     private lateinit var tv_recyclerview_number : TextView
 
@@ -54,7 +46,7 @@ class TimerFragment : Fragment() {
     private var clicked = false
 
     //recycler view timer
-    private lateinit var lv_timer: RecyclerView
+    private lateinit var rv_timer: RecyclerView
     private lateinit var TimeArrayList: ArrayList<Timer>
     private lateinit var TimerAdapter: Adapter
 
@@ -77,28 +69,12 @@ class TimerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
-        lv_timer = view.findViewById(R.id.listview)
+        rv_timer = view.findViewById(R.id.recycler_view)
         number_allenamento = view.findViewById(R.id.tv_number_allenamento)
         communicator = activity as Communicator
 
         setrecyclerview()
 
-    /*    //set list
-        TimeArrayList = ArrayList()
-
-        communicator = activity as Communicator
-
-        //set recycler_view
-        lv_timer = view.findViewById(R.id.listview)
-
-        //set adapter
-        TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
-
-        //set recyclerview adapter
-        lv_timer.layoutManager = LinearLayoutManager(this.requireContext())
-        lv_timer.adapter = TimerAdapter*/
-
-        // Inflate the layout for this fragment
         return view
     }
 
@@ -126,10 +102,6 @@ class TimerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //predisposizione list view
-        //popolateListView(view)
-        //apertura del floating action button
-
         openFunction(view)
     }
 
@@ -155,12 +127,7 @@ class TimerFragment : Fragment() {
         }
 
         fabAdd.setOnClickListener {
-            //set dialog
-            //addTimers()
-            //onRegisterTimer()
-            createRecyclerView()
-            /*val addTimer = AddTimerFragment()
-            createFragment(addTimer)*/
+            passValue()
         }
 
         fabPlay.setOnClickListener {
@@ -169,7 +136,7 @@ class TimerFragment : Fragment() {
 
         fabSave.setOnClickListener {
             saveData()
-            changePath()
+            nextPath()
         }
     }
 
@@ -219,64 +186,17 @@ class TimerFragment : Fragment() {
         }
     }
 
-    private fun addTimer(){
-        val inflater = LayoutInflater.from(this.requireContext())
-        val v = inflater.inflate(R.layout.add_timers, null)
-
-        val np_minutes = v.findViewById<NumberPicker>(R.id.np_minutes)
-        val np_seconds = v.findViewById<NumberPicker>(R.id.np_seconds)
-
-        val r_minutes = v.findViewById<TextView>(R.id.result_minutes)
-        val r_seconds = v.findViewById<TextView>(R.id.result_seconds)
-
-        np_minutes.minValue = 0
-        np_minutes.maxValue = 60
-
-        np_seconds.minValue = 0
-        np_seconds.maxValue = 60
-
-        np_minutes.setOnValueChangedListener { _, _, _ ->
-            val minutess = np_minutes.value
-            r_minutes.text = String.format("$minutess")
-        }
-
-        np_seconds.setOnValueChangedListener { _, _, _ ->
-            val secondss = np_seconds.value
-            r_seconds.text = String.format("$secondss")
-        }
-
-        val addDialog = AlertDialog.Builder(this.requireContext())
-        addDialog.setView(v)
-        addDialog.setPositiveButton("Ok"){
-                dialog,_->
-            val min = r_minutes.text.toString()
-            val sec = r_seconds.text.toString()
-
-            TimeArrayList.add(Timer("$min", "$sec"))
-            TimerAdapter.notifyDataSetChanged()
-            Log.d(ContentValues.TAG, "Timer aggiunto con successo")
-            dialog.dismiss()
-        }
-        addDialog.setNegativeButton("Cancel"){
-                dialog,_->
-            dialog.dismiss()
-            Log.d(ContentValues.TAG, "Cancel")
-        }
-        addDialog.create()
-        addDialog.show()
-    }
-
     /**
      * Metodo che permette di passare il valore di number_path alla classe AddTimerFragment
      */
-    private fun createRecyclerView(){
+    private fun passValue(){
         communicator.passData(number_path)
     }
 
     /**
      * Metodo che permette di aprire il fragment passato come argomento
      */
-    private fun createFragment(fragment: Fragment) =
+    private fun openFragment(fragment: Fragment) =
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
             addToBackStack(null)
@@ -284,7 +204,7 @@ class TimerFragment : Fragment() {
         }
 
     /**
-     * Metodo che permette di gestire la recycler_view della classe
+     * Metodo che permette di gestire la predisposizione della recycler_view della classe
      */
     fun setrecyclerview(){
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
@@ -293,8 +213,7 @@ class TimerFragment : Fragment() {
         query = databaseReference?.orderByChild("Allenamento " + number_path.toString())?.limitToLast(1)
 
         val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)
-        lv_timer.layoutManager = gridLayoutManager
-        Log.e("path", number_path.toString())
+        rv_timer.layoutManager = gridLayoutManager
 
         number_allenamento.text = number_path.toString()
 
@@ -306,14 +225,11 @@ class TimerFragment : Fragment() {
 
         TimeArrayList = ArrayList()
         TimerAdapter = Adapter(this.requireActivity(), TimeArrayList)
-        lv_timer.adapter = TimerAdapter
+        rv_timer.adapter = TimerAdapter
 
         eventListener = query!!.addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                //number_path = snapshot.childrenCount.toInt()
-
                 val np = "Allenamento " + number_path
-                Log.e("np", np.toString())
 
                 databaseReference2 = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
                     .getReference("Timers").child(Firebase.auth.currentUser!!.uid).child(np.toString())
@@ -366,30 +282,27 @@ class TimerFragment : Fragment() {
     }
 
     /**
-     * Metodo che salva l'intero ArrayList nell'apposito path di Firebase
+     * Metodo che salva l'intera ArrayList nell'apposito path di Firebase
      */
     private fun uploadData(){
+        val dataClass = Allenamenti(number_path.toString())
 
-            val dataClass = Allenamenti(number_path.toString())
-            val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
+        FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid)
+            .child("Allenamento " + number_path)
+            .setValue(dataClass).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val inflater = LayoutInflater.from(this.requireContext())
+                    val v = inflater.inflate(R.layout.allenamento_item, null)
 
-            FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-                .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid)
-                .child("Allenamento " + number_path)
-                .setValue(dataClass).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val inflater = LayoutInflater.from(this.requireContext())
-                        val v = inflater.inflate(R.layout.recylerview_item, null)
-
-                        tv_recyclerview_number = v.findViewById(R.id.tv_recyclerview_numbers)
-                        tv_recyclerview_number.text = number_path.toString()
-                        Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
-                        // createRecyclerView()
-                        createFragment(timerSalvatiFragment)
-                    }
-                }.addOnFailureListener { e ->
-                    Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
+                    tv_recyclerview_number = v.findViewById(R.id.tv_recyclerview_numbers)
+                    tv_recyclerview_number.text = number_path.toString()
+                    Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
+                    openFragment(timerSalvatiFragment)
                 }
+            }.addOnFailureListener { e ->
+                Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
+            }
     }
 
     /**
@@ -449,7 +362,7 @@ class TimerFragment : Fragment() {
      * Metodo che permette di ritornare all'activity di partenza
      */
     private fun returnAllenamento() {
-        val i = Intent(this.requireContext(), TimerActivity2::class.java)
+        val i = Intent(this.requireContext(), TimerActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(i)
@@ -469,11 +382,6 @@ class TimerFragment : Fragment() {
     private fun playAlarmFinish(){
         val intent = Intent(this.requireContext(), BackgroundAlarmFinishService::class.java)
         activity?.startService(intent)
-    }
-
-    private fun changePath(){
-        number_path += 1
-        setrecyclerview()
     }
 
     /**

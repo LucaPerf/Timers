@@ -21,6 +21,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var database: DatabaseReference
     var usernameString: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -41,7 +42,6 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         btn_Register.setOnClickListener {
-
             val uasString = nameandsurname.text.toString()
             val mailString = mail.text.toString()
             usernameString = username.text.toString()
@@ -66,16 +66,16 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 if(!isValidPassword(passwordString)){
-                    Toast.makeText(this, "inserire una password di almeno 4 caratteri", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "inserire una password di almeno 6 caratteri", Toast.LENGTH_SHORT).show()
                     check = false
                 }
 
                 if (passwordString != confirmPasswordString) {
-                    Toast.makeText(this, "Password non sono uguali", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Le password non sono uguali", Toast.LENGTH_SHORT).show()
                     check = false
                 }
-                if(check){
 
+                if(check){
                     auth.createUserWithEmailAndPassword(mailString, passwordString)
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
@@ -85,12 +85,12 @@ class RegisterActivity : AppCompatActivity() {
                                 Toast.makeText(this, "Utente già registrato", Toast.LENGTH_SHORT)
                                     .show()
                             }
-                            //creazione del path che vedremo nel firbase
+
                             database =
                                 FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
                                     .getReference("Utenti")
                             val utenti = User(mailString, uasString, usernameString)
-                            //ogni username indicherà la persona all'interno del path nel firebase
+
                             database.child(Firebase.auth.currentUser!!.uid).setValue(utenti).addOnSuccessListener {
                                 mail.text?.clear()
                                 nameandsurname.text?.clear()

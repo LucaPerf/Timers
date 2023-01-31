@@ -1,6 +1,5 @@
 package it.pdm.timers
 
-//data class Timer(val NTimer: String, val timeTimer: String)
 /**
  * Classe che gestisce le infromazioni di un Timer
  */
