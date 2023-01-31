@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
     android:padding="25dp"
-    android:background="@drawable/background">
+    android:background="@color/background">
 
     <ImageView
         android:id="@+id/img_login"
@@ -87,7 +87,7 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:text="Login"
-        style="@style/ButtonGreen"
+        style="@style/ButtonBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"

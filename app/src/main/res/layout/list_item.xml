@@ -71,7 +71,7 @@
             android:layout_alignTop="@+id/linearlayout"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="34dp"
-            android:background="@color/purple_700" />
+            android:background="@color/primary_color" />
     </RelativeLayout>
 
 </LinearLayout>
