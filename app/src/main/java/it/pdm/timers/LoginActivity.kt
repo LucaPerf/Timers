@@ -11,6 +11,9 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+/**
+ * Classe che gestisce il Login di un utente
+ */
 class LoginActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
 

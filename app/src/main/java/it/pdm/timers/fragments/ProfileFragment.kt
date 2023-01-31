@@ -17,6 +17,9 @@ import it.pdm.timers.R
 import it.pdm.timers.User
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Classe che permette di mostrare il fragment contenente i dati personali dell'Utente
+ */
 class ProfileFragment : Fragment() {
     private lateinit var database : DatabaseReference
     private lateinit var auth : FirebaseAuth
@@ -52,6 +55,9 @@ class ProfileFragment : Fragment() {
         insertData()
     }
 
+    /**
+     * Metodo che permette di leggere i dati nell'apposito path di Firebase e riportarli nel fragment
+     */
     private fun insertData(){
         database = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Utenti")

@@ -14,6 +14,9 @@ import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Classe che permette la gestione di un allenamento salvato
+ */
 class AllenamentoSalvatoActivity : AppCompatActivity(){
     lateinit var ArrayTimer: ArrayList<Timer>
     private lateinit var recyclerview: RecyclerView
@@ -43,6 +46,9 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
 
     }
 
+    /**
+     * Metodo che permette di leggere i Timer contenuti in un apposito path di Firebase, e scriverli nell'ArrayList
+     */
     private fun readAllenamento() {
         val intent = intent
         val s = intent.getStringExtra("Timers")
@@ -82,6 +88,9 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
         })
     }
 
+    /**
+     * Metodo che permette di leggere i Timer contenuti nell'ArrayList
+     */
     private fun readTimers() {
         if(ArrayTimer.isEmpty()){
             Toast.makeText(this, "Non ci sono timer", Toast.LENGTH_SHORT).show()
@@ -122,6 +131,9 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
         }
     }
 
+    /**
+     * Metodo che permette di aprire la classe CountdownActivity
+     */
     private fun playTimers(min: Int, sec: Int) {
         val i = Intent(this.baseContext, CountdownActivity::class.java)
         i.putExtra("MINUTI", min)
@@ -129,6 +141,9 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
         startActivity(i)
     }
 
+    /**
+     * Metodo che permette di ritornare all'activity di partenza
+     */
     private fun returnAllenamento() {
         val i = Intent(this, TimerActivity2::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -136,11 +151,17 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
         startActivity(i)
     }
 
+    /**
+     * Metodo che apre la classe BackgroundMusicService
+     */
     private fun playAlarm(){
         val intent = Intent(this, BackgroundMusicService::class.java)
         startService(intent)
     }
 
+    /**
+     * Metodo che apre la classe BackgroundAlarmFinishService
+     */
     private fun playAlarmFinish(){
         val intent = Intent(this, BackgroundAlarmFinishService::class.java)
         startService(intent)

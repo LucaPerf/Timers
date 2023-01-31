@@ -20,9 +20,7 @@ import it.pdm.timers.R
 import kotlinx.android.synthetic.main.activity_allenamento_salvato.*
 
 /**
- * A simple [Fragment] subclass.
- * Use the [TimerSalvatiFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * Classe che gestisce gli Allenamenti
  */
 class TimerSalvatiFragment : Fragment() {
     var output: String? = ""
@@ -59,6 +57,9 @@ class TimerSalvatiFragment : Fragment() {
         return view
     }
 
+    /**
+     * Metodo che permette di gestire la recycler_view della classe
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setrecyclerview(){
         val gridLayoutManager = GridLayoutManager(this.requireContext(), 1)

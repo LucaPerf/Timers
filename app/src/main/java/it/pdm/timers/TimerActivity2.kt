@@ -25,6 +25,9 @@ import it.pdm.timers.fragments.TimerFragment
 import it.pdm.timers.fragments.TimerSalvatiFragment
 import kotlinx.android.synthetic.main.activity_timer.*
 
+/**
+ * Classe che gestisce la navigation_view e il bottom_navigation_view
+ */
 class TimerActivity2 : AppCompatActivity(), Communicator {
     private val timerFragment = TimerFragment()
     private val timerSalvatiFragment = TimerSalvatiFragment()
@@ -74,6 +77,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         }
     }
 
+    /**
+     * Metodo che permette di passare il dato, specificato nell'argomento, alla classe AddTimerFragment
+     */
     override fun passData(addItem: Int) {
         val bundle = Bundle()
         bundle.putInt("message", addItem)
@@ -106,6 +112,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         })
     }*/
 
+    /**
+     * Metodo che permette di aprire il fragment passato come argomento
+     */
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransition = fragmentManager.beginTransaction()
@@ -114,6 +123,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         drawerLayout.closeDrawers()
     }
 
+    /**
+     * Metodo che permette di aprire la navigation_view
+     */
     //usata aprire la navigation drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
@@ -123,6 +135,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Metodo che gestisce il logout dall'applicazione
+     */
     private fun logoutMenu(activity: LoginActivity){
         val addDialog = AlertDialog.Builder(this)
         addDialog.setTitle("Logout")

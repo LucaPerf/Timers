@@ -10,6 +10,9 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import java.util.*
 
+/**
+ * Classe che gestisce il Countdown di un singolo Timer
+ */
 class CountdownActivity : AppCompatActivity() {
     var txt_time: TextView? = null
     var img_play: ImageView? = null
@@ -63,6 +66,9 @@ class CountdownActivity : AppCompatActivity() {
         img_delete = findViewById(R.id.tv_delete)
     }
 
+    /**
+     * Metodo che permette di leggere il valore dei minuti e secondi
+     */
     fun getData(){
         timerLengthMin = intent.getIntExtra("MINUTI", 1)
         timerLengthSec = intent.getIntExtra("SECONDI", 1)
@@ -76,6 +82,9 @@ class CountdownActivity : AppCompatActivity() {
         progressbar!!.setProgress(timeLeftInMillis.toInt() / 1000)
     }
 
+    /**
+     * Metodo che permette di far partire il Countdown
+     */
     private fun startTimer(){
         countDownTimer = object : CountDownTimer(timeLeftInMillis, 1000){
             override fun onTick(millisUntilFinished: Long){
@@ -92,6 +101,9 @@ class CountdownActivity : AppCompatActivity() {
         timerState = TimerState.STARTED
     }
 
+    /**
+     * Metodo che permette di mettere in pausa il Countdown
+     */
     private fun pauseTimer(){
         countDownTimer.cancel()
         timerState = TimerState.STOPPED
@@ -99,6 +111,9 @@ class CountdownActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Metodo che aggiorna, a ogni secondo, il testo del Countdown
+     */
     private fun updateCountDownText(){
         val minutes: Int = (timeLeftInMillis.toInt() / 1000) / 60
         val seconds: Int = (timeLeftInMillis.toInt() / 1000) % 60

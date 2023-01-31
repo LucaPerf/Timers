@@ -10,6 +10,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+
+/**
+ * Classe che gestisce il recupero password oppure il cambio password
+ */
 class PasswordDimenticataActivity : AppCompatActivity() {
 
     private lateinit var etPassord: EditText
