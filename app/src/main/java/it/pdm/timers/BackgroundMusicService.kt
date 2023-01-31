@@ -5,6 +5,9 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.IBinder
 
+/**
+ * Classe permette di riprodurre il suono alla fine di ogni singolo timer
+ */
 class BackgroundMusicService: Service() {
     private lateinit var player: MediaPlayer
     override fun onCreate() {

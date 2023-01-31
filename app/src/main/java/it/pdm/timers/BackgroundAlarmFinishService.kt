@@ -5,6 +5,9 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.IBinder
 
+/**
+ * Classe permette di riprodurre il suono alla fine del tempo totale
+ */
 class BackgroundAlarmFinishService: Service() {
     private lateinit var player: MediaPlayer
     override fun onCreate() {

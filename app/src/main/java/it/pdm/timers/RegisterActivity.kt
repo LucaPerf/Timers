@@ -14,6 +14,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import java.util.regex.Pattern
 
+
+/**
+ * Classe che permette di effettaure la registrazione all'applicazione
+ */
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var database: DatabaseReference
@@ -109,6 +113,9 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Metodo che permette di controllare se la mail sia valida
+     */
     private fun isValidEmail(email: String): Boolean{
         val EMAIL_PATTERN = ("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
         + "[A-Za-z0-9-]+(||-[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")
@@ -117,14 +124,23 @@ class RegisterActivity : AppCompatActivity() {
         return matcher.matches()
     }
 
+    /**
+     * Metodo che permette di controllare se la passwrod sia valida
+     */
     private fun isValidPassword(pass: String?): Boolean{
         return pass != null && pass.length >= 6
     }
 
+    /**
+     * Metodo che permette di controllare se il nome e cognome siano validi
+     */
     private fun isValidNameAndSurname(userandsurname: String?): Boolean{
         return userandsurname != null && userandsurname.length >= 4
     }
 
+    /**
+     * Metodo che permette di controllare se lo username sia valido
+     */
     private fun isValidUsername(username: String?): Boolean{
         return username != null && username.length >= 3
     }

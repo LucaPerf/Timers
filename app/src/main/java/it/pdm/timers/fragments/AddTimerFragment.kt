@@ -21,10 +21,15 @@ import kotlinx.android.synthetic.main.fragment_add_timer.*
 import java.text.DateFormat
 import java.util.*
 
+/**
+ * Classe che permette di impostare i valori del timer
+ */
 class AddTimerFragment : Fragment() {
-
     var output: Int ?= 0
 
+    /**
+     * Metodo che permette di implementare i valori della number_picker
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,6 +83,9 @@ class AddTimerFragment : Fragment() {
         return view
     }
 
+    /**
+     * Metodo che permette di salvare i dati appena impostati
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun saveDataTimer(){
         val builder = AlertDialog.Builder(this.requireContext())
@@ -89,6 +97,9 @@ class AddTimerFragment : Fragment() {
         dialog.dismiss()
     }
 
+    /**
+     * Metodo che permette di aggiungere i dati appena scelti nell'apposito path di Firebase
+     */
     private fun uploadDataTimer(){
         val dataClass = Timer(result_minutes?.text.toString(), result_seconds?.text.toString())
         val currentData = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
@@ -110,6 +121,9 @@ class AddTimerFragment : Fragment() {
         }
     }
 
+    /**
+     * Metodo che permette di aprire il fragment indicato nell'argomento
+     */
     private fun createFragment(fragment: Fragment) =
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)

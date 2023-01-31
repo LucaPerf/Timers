@@ -17,6 +17,9 @@ import it.pdm.timers.R
 import it.pdm.timers.User
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Classe che permette di impostare i dati personali dell'utente loggato
+ */
 class ProfileFragment : Fragment() {
     private lateinit var database : DatabaseReference
     private lateinit var auth : FirebaseAuth
@@ -37,11 +40,14 @@ class ProfileFragment : Fragment() {
         return view
     }
 
+    /**
+     * Metodo che permette il cambio password cliccando l'apposita TextView
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val tv_forgot_password = view.findViewById<TextView>(R.id.tv_modifica_password)
+        val tv_change_password = view.findViewById<TextView>(R.id.tv_modifica_password)
         insertData()
-        tv_forgot_password.setOnClickListener {
+        tv_change_password.setOnClickListener {
             auth.signOut()
             val intent = Intent(this.requireContext(), PasswordDimenticataActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -51,6 +57,9 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    /**
+     * Metodo che recupera i dati nell'apposito path in Firebase, e scrive i dati letti nelle tre TextView
+     */
     private fun insertData(){
         database = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Utenti")

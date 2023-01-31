@@ -31,9 +31,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * A simple [Fragment] subclass.
- * Use the [TimerFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * Classe che permette la gestione del fragment TimerFragment
  */
 class TimerFragment : Fragment() {
     private var min = 0
@@ -101,11 +99,17 @@ class TimerFragment : Fragment() {
         return view
     }
 
+    /**
+     * Metodo che permette la visualizzazione degli Item in alto a destra
+     */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         activity?.menuInflater?.inflate(R.menu.menu_move_path, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    /**
+     * Metodo che gestisce ogni singolo evento degli Itme in alto a destra
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.back -> backPath()
@@ -126,6 +130,9 @@ class TimerFragment : Fragment() {
         openFunction(view)
     }
 
+    /**
+     * Metodo che permette l'apertura dei Floating Action Button e la gestione di ogni singolo Floating Action Button
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun openFunction(view: View) {
         val fab = view?.findViewById<FloatingActionButton>(R.id.fab)
@@ -162,6 +169,9 @@ class TimerFragment : Fragment() {
         clicked = !clicked
     }
 
+    /**
+     * Metodo che gestisce l'animazione del Floating Action Button
+     */
     private fun setAnimation(clicked: Boolean){
         val fab = view?.findViewById<FloatingActionButton>(R.id.fab)
         val fabAdd = view?.findViewById<FloatingActionButton>(R.id.fab_add)
@@ -181,6 +191,9 @@ class TimerFragment : Fragment() {
         }
     }
 
+    /**
+     * Metodo che permette la visualizzazione dei Floating Action Button che inizialemnte sono impostati a INVISIBLE
+     */
     private fun setVisibility(clicked: Boolean){
         val fabAdd = view?.findViewById<FloatingActionButton>(R.id.fab_add)
         val fabPlay = view?.findViewById<FloatingActionButton>(R.id.fab_play)
@@ -243,10 +256,16 @@ class TimerFragment : Fragment() {
         addDialog.show()
     }
 
+    /**
+     * Metodo che permette di passare alla classe AddTimerFragment il number_path corrente
+     */
     private fun createRecyclerView(){
         communicator.passData(number_path)
     }
 
+    /**
+     * Metodo che permette di aprire il fragment passato come argomento
+     */
     private fun createFragment(fragment: Fragment) =
         parentFragmentManager.beginTransaction().apply {
             replace(R.id.fragment_container, fragment)
@@ -254,6 +273,9 @@ class TimerFragment : Fragment() {
             commit()
         }
 
+    /**
+     * Metodo che permette la gestione della recycler_view
+     */
     fun setrecyclerview(){
         databaseReference = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Timers").child(Firebase.auth.currentUser!!.uid)
@@ -312,6 +334,9 @@ class TimerFragment : Fragment() {
         })
     }
 
+    /**
+     * Metoto che permette di mostrare la progress_bar_loading per il salvataggio dei dati
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun saveData(){
         val builder = AlertDialog.Builder(this.requireContext())
@@ -323,6 +348,9 @@ class TimerFragment : Fragment() {
         dialog.dismiss()
     }
 
+    /**
+     * Metoto che permette di salvare i timer della classe corrente nell'apposito path di Firebase
+     */
     private fun uploadData(){
         val dataClass = Allenamenti(number_path.toString())
         val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
@@ -345,6 +373,9 @@ class TimerFragment : Fragment() {
             }
     }
 
+    /**
+     * Metodo che permette di leggere la lista contente tutti i timer, e la gestione del countdown
+     */
     private fun readTimers() {
         if (size != 0){
             val array = TimeArrayList.get(currentTimer)
@@ -381,6 +412,9 @@ class TimerFragment : Fragment() {
         }
     }
 
+    /**
+     * Metodo che permette di aprire la classe CountdownActivity passandogli i minuti e secondi definiti come argomento
+     */
     private fun playTimers(min: Int, sec: Int) {
         val i = Intent(this.requireContext(), CountdownActivity::class.java)
         i.putExtra("MINUTI", min)
@@ -388,6 +422,9 @@ class TimerFragment : Fragment() {
         startActivity(i)
     }
 
+    /**
+     * Metodo che permette di far ritornare all'activity iniziale
+     */
     private fun returnAllenamento() {
         val i = Intent(this.requireContext(), TimerActivity2::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -395,11 +432,17 @@ class TimerFragment : Fragment() {
         startActivity(i)
     }
 
+    /**
+     * Metodo che permette di aprire la classe BackgroundMusicService
+     */
     private fun playAlarm(){
         val intent = Intent(this.requireContext(), BackgroundMusicService::class.java)
         activity?.startService(intent)
     }
 
+    /**
+     * Metodo che permette di aprire la classe BackgroundAlarmFinishService
+     */
     private fun playAlarmFinish(){
         val intent = Intent(this.requireContext(), BackgroundAlarmFinishService::class.java)
         activity?.startService(intent)
@@ -410,6 +453,9 @@ class TimerFragment : Fragment() {
         setrecyclerview()
     }
 
+    /**
+     * Metodo che permette di diminuire il valore del number_path
+     */
     private fun backPath(){
         if (number_path != 0){
             number_path -= 1
@@ -419,6 +465,9 @@ class TimerFragment : Fragment() {
         }
     }
 
+    /**
+     * Metodo che permette di aumentare il valore del number_path
+     */
     private fun nextPath(){
         number_path += 1
         setrecyclerview()

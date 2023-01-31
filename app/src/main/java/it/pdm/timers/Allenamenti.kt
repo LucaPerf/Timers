@@ -1,5 +1,8 @@
 package it.pdm.timers
 
+/**
+ * Classe che gestisce un Allenamento
+ */
 class Allenamenti{
     var number_recyclerview: String? = null
 

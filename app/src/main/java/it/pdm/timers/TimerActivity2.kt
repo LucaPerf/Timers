@@ -25,6 +25,9 @@ import it.pdm.timers.fragments.TimerFragment
 import it.pdm.timers.fragments.TimerSalvatiFragment
 import kotlinx.android.synthetic.main.activity_timer.*
 
+/**
+ * Classe che si occupa della gestione della navigation_view e bottom_navigation_view
+ */
 class TimerActivity2 : AppCompatActivity(), Communicator {
     private val timerFragment = TimerFragment()
     private val timerSalvatiFragment = TimerSalvatiFragment()
@@ -53,7 +56,7 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
 
         auth = Firebase.auth
 
-        //mostrare in alto a destra le impostazioni
+        //si mostra in alto a sinistra il navigationview
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navView.setNavigationItemSelectedListener{
             it.isCheckable = true
@@ -75,6 +78,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         }
     }
 
+    /**
+     * Metodo che permette di passare il dato letto come argomento
+     */
     override fun passData(addItem: Int) {
         val bundle = Bundle()
         bundle.putInt("message", addItem)
@@ -87,6 +93,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         transaction.commit()
     }
 
+    /**
+     * da cancellare
+     */
     private fun set_navheader() {
         val inflater = LayoutInflater.from(this)
         val v = inflater.inflate(R.layout.nav_header, null)
@@ -111,6 +120,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         })
     }
 
+    /**
+     * Metodo che permette di aprire il fragment passato come argomento
+     */
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransition = fragmentManager.beginTransaction()
@@ -119,7 +131,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         drawerLayout.closeDrawers()
     }
 
-    //usata aprire la navigation drawer
+    /**
+     * Metodo che permette di aprire la navigation view
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
             set_navheader()
@@ -128,6 +142,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Metodo che permette di far effettuare il logout all'utente
+     */
     private fun logoutMenu(activity: LoginActivity){
         val addDialog = AlertDialog.Builder(this)
         addDialog.setTitle("Logout")

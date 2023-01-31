@@ -1,7 +1,8 @@
 package it.pdm.timers
 
-//data class Timer(val NTimer: String, val timeTimer: String)
-
+/**
+ * Classe che gestisce un Timer
+ */
 class Timer{
     var minuti: String? = null
     var secondi: String? = null

@@ -9,6 +9,9 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import java.util.*
 
+/**
+ * Classe che permette la gestione del countdown di ogni singolo timer
+ */
 class CountdownActivity : AppCompatActivity() {
     var txt_time: TextView? = null
     var img_play: ImageView? = null
