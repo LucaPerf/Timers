@@ -1,6 +1,5 @@
 package it.pdm.timers
 
-import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,7 +15,6 @@ import java.util.*
 class CountdownActivity : AppCompatActivity() {
     var txt_time: TextView? = null
     var img_play: ImageView? = null
-    var img_delete: ImageView? = null
     var progressbar: ProgressBar? = null
     var timerLengthMin: Int? = null
     var timerLengthSec: Int? = null
@@ -37,7 +35,6 @@ class CountdownActivity : AppCompatActivity() {
 
         val color = Color.parseColor("#FF000000")
         img_play?.setColorFilter(color)
-        img_delete?.setColorFilter(color)
 
         img_play!!.setOnClickListener{
             if(timerState == TimerState.STARTED){
@@ -45,13 +42,6 @@ class CountdownActivity : AppCompatActivity() {
             }else{
                 startTimer()
             }
-        }
-
-        img_delete?.setOnClickListener {
-            val i = Intent(this, TimerActivity::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(i)
         }
 
         updateCountDownText()
@@ -62,7 +52,6 @@ class CountdownActivity : AppCompatActivity() {
         txt_time = findViewById(R.id.tv_countdown)
         progressbar = findViewById(R.id.progress_coundown)
         img_play = findViewById(R.id.iv_play)
-        img_delete = findViewById(R.id.tv_delete)
     }
 
     /**
