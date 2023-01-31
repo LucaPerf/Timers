@@ -19,7 +19,9 @@
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/bg_text_field.xml" value="0.1" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/btn_register_login.xml" value="0.1" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_add.xml" value="0.118" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_add_white.xml" value="0.133" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_backspace.xml" value="0.1115" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_baseline_room_24.xml" value="0.133" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_delete.xml" value="0.133" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_logout.xml" value="0.118" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_pause.xml" value="0.108" />
@@ -27,26 +29,25 @@
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_replay.xml" value="0.122" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_settings.xml" value="0.108" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_stop.xml" value="0.108" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/ic_timer_salvati.xml" value="0.133" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/drawable/shape_background.xml" value="0.1" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_allenamento_salvato.xml" value="0.1286231884057971" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_allenamento_salvato.xml" value="0.2" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_communicator.xml" value="0.19791666666666666" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_countdown.xml" value="0.20108695652173914" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_login.xml" value="0.2" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_main.xml" value="0.24682971014492755" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_main2.xml" value="0.19791666666666666" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_password_dimenticata.xml" value="0.19791666666666666" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_register.xml" value="0.21965579710144928" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_set_time.xml" value="0.1" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_set_time_activty.xml" value="0.264" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_timer.xml" value="0.2" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_timer2.xml" value="0.16799999999999998" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/activity_timer2.xml" value="0.19791666666666666" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/add_item.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/add_timers.xml" value="0.21965579710144928" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_add_timer.xml" value="0.2" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_profile.xml" value="0.176" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_add_timer.xml" value="0.264" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_profilo.xml" value="0.21965579710144928" />
-        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_timer.xml" value="0.264" />
+        <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_timer.xml" value="0.23703703703703705" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_timer_salvati.xml" value="0.1490036231884058" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/fragment_view_timer_salvati.xml" value="0.19791666666666666" />
         <entry key="..\:/Users/lperf/OneDrive/Documenti/Timers/app/src/main/res/layout/list_item.xml" value="0.264" />

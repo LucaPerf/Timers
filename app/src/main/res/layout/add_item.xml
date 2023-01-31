@@ -24,7 +24,7 @@
             android:textStyle="bold"
             android:textSize="19dp"
             android:textColor="@color/white"
-            android:background="@color/purple_500"
+            android:background="@color/blue_500"
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingLeft="15dp"
@@ -45,7 +45,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="15dp"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/blue_500"
             android:textStyle="bold"/>
 
         <EditText
@@ -57,7 +57,7 @@
             android:background="@drawable/shape_background"
             android:inputType="phone"
             android:textSize="18dp"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/blue_500"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginBottom="15dp"

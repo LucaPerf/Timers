@@ -2,6 +2,7 @@ package it.pdm.timers.fragments
 
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -134,6 +135,13 @@ class TimerFragment : Fragment() {
         val fabAdd = view?.findViewById<FloatingActionButton>(R.id.fab_add)
         val fabPlay = view?.findViewById<FloatingActionButton>(R.id.fab_play)
         val fabSave = view?.findViewById<FloatingActionButton>(R.id.fab_save)
+
+        val color = Color.parseColor("#E2DFD2")
+        fab.setColorFilter(color)
+        fabAdd.setColorFilter(color)
+        fabPlay.setColorFilter(color)
+        fabSave.setColorFilter(color)
+
 
         fab.setOnClickListener {
             onAddButtonClicked()
