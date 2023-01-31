@@ -1,6 +1,7 @@
 package it.pdm.timers
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -30,6 +31,10 @@ class CountdownActivity : AppCompatActivity() {
         setContentView(R.layout.activity_countdown)
         init()
         getData()
+
+        val color = Color.parseColor("#FF000000")
+        img_play?.setColorFilter(color)
+        img_delete?.setColorFilter(color)
 
         img_play!!.setOnClickListener{
             if(timerState == TimerState.STARTED){

@@ -4,65 +4,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:padding="10dp"
-    android:background="@drawable/background">
+    android:background="@color/background"
+    android:padding="20dp"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/tv_started_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Benvenuto!"
         style="@style/Title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/tv_started_sub_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:lineHeight="20sp"
-        android:text="Tieni il tempo insieme a noi!"
-        style="@style/Sub_Title"
+        android:text="Benvenuto!"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_started_title"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline1"/>
+
+    <TextView
+        android:id="@+id/tv_started_sub_title"
+        style="@style/Sub_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineHeight="20sp"
+        android:text="Tieni il tempo insieme a noi!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2"/>
 
     <ImageView
         android:id="@+id/img_clock"
-        android:layout_width="66dp"
-        android:layout_height="70dp"
+        android:layout_width="350dp"
+        android:layout_height="340dp"
         android:layout_marginTop="1dp"
         android:src="@drawable/clock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.355"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_started_sub_title"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login"
+        style="@style/ButtonWhite"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:text="LOGIN"
-        style="@style/ButtonWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_clock" />
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_register"
+        style="@style/ButtonWhite"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:text="REGISTRATI"
-        style="@style/ButtonWhite"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.0"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.73"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.83"
+        app:layout_constraintGuide_begin="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

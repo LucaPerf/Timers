@@ -59,12 +59,11 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
             it.isCheckable = true
             when(it.itemId){
                 R.id.profile -> replaceFragment(profileFragment)
-                R.id.settings -> Toast.makeText(applicationContext, "Impostazioni", Toast.LENGTH_SHORT).show()
                 R.id.logout -> logoutMenu(LoginActivity())
             }
             true
         }
-        set_navheader()
+        //set_navheader()
 
         btn_navigation.setOnItemSelectedListener{
             when(it.itemId){
@@ -86,12 +85,9 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
         transaction.replace(R.id.fragment_container, fragmentB)
         transaction.commit()
     }
-
+/*
     private fun set_navheader() {
         val inflater = LayoutInflater.from(this)
-        val v = inflater.inflate(R.layout.nav_header, null)
-
-        eemail = v.findViewById(R.id.mail)
 
         database = FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
             .getReference("Utenti")
@@ -101,7 +97,6 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()) {
                     val user = snapshot.getValue(User::class.java)!!
-                    eemail.text = user.username
                 }
             }
 
@@ -109,7 +104,7 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
                 Log.w("TEST","Failed to read value")
             }
         })
-    }
+    }*/
 
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
@@ -122,7 +117,7 @@ class TimerActivity2 : AppCompatActivity(), Communicator {
     //usata aprire la navigation drawer
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
-            set_navheader()
+           // set_navheader()
             return true
         }
         return super.onOptionsItemSelected(item)

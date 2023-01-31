@@ -25,7 +25,6 @@ class ProfileFragment : Fragment() {
     private lateinit var username : TextView
     private lateinit var mail : TextView
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,13 +33,9 @@ class ProfileFragment : Fragment() {
         nas = view.findViewById(R.id.tv_name_and_surname)
         username = view.findViewById(R.id.tv_username)
         mail = view.findViewById(R.id.tv_email)
-        return view
-    }
+        auth = Firebase.auth
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         val tv_forgot_password = view.findViewById<TextView>(R.id.tv_modifica_password)
-        insertData()
         tv_forgot_password.setOnClickListener {
             auth.signOut()
             val intent = Intent(this.requireContext(), PasswordDimenticataActivity::class.java)
@@ -49,6 +44,12 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
             Toast.makeText(this.requireContext(), "Sign Out", Toast.LENGTH_SHORT).show()
         }
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        insertData()
     }
 
     private fun insertData(){
@@ -61,7 +62,7 @@ class ProfileFragment : Fragment() {
                 if(snapshot.exists()) {
                     val user = snapshot.getValue(User::class.java)!!
                     mail.text = user.email
-                    nas.text = user.NameAndSurname
+                    nas.text = user.nameAndSurname
                     username.text = user.username
                 }
             }

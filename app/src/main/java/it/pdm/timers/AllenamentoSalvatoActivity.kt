@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
@@ -82,38 +83,42 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
     }
 
     private fun readTimers() {
-        if (size != 0){
-            val array = ArrayTimer.get(currentTimer)
+        if(ArrayTimer.isEmpty()){
+            Toast.makeText(this, "Non ci sono timer", Toast.LENGTH_SHORT).show()
+        }else{
+            if (size != 0){
+                val array = ArrayTimer.get(currentTimer)
 
-            val minuti = array.minuti.toString()
-            min = minuti.toInt()
+                val minuti = array.minuti.toString()
+                min = minuti.toInt()
 
-            val secondi = array.secondi.toString()
-            sec = secondi.toInt()
+                val secondi = array.secondi.toString()
+                sec = secondi.toInt()
 
-            sum = (min * 60 * 1000) + (sec * 1000)
+                sum = (min * 60 * 1000) + (sec * 1000)
 
-            playTimers(min, sec)
-            currentTimer += 1
+                playTimers(min, sec)
+                currentTimer += 1
 
-            val timer = java.util.Timer()
+                val timer = java.util.Timer()
 
-            val timerTask = object  : TimerTask(){
-                override fun run() {
-                    if(size > 1){
-                        size -= 1
-                        playAlarm()
-                        readTimers()
-                    }else{
-                        size -= 1
-                        playAlarmFinish()
-                        readTimers()
+                val timerTask = object  : TimerTask(){
+                    override fun run() {
+                        if(size > 1){
+                            size -= 1
+                            playAlarm()
+                            readTimers()
+                        }else{
+                            size -= 1
+                            playAlarmFinish()
+                            readTimers()
+                        }
                     }
                 }
+                timer.schedule(timerTask, sum.toLong())
+            }else{
+                returnAllenamento()
             }
-            timer.schedule(timerTask, sum.toLong())
-        }else{
-            returnAllenamento()
         }
     }
 
@@ -125,7 +130,7 @@ class AllenamentoSalvatoActivity : AppCompatActivity(){
     }
 
     private fun returnAllenamento() {
-        val i = Intent(this, TimerActivity::class.java)
+        val i = Intent(this, TimerActivity2::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(i)

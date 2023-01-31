@@ -7,10 +7,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_height="65dp">
 
         <LinearLayout
+            android:id="@+id/linearlayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
@@ -23,18 +23,9 @@
                 android:text="Timer"
                 android:textColor="@color/black"
                 android:textSize="25dp"
+                android:layout_marginTop="2dp"
                 android:textStyle="bold"
                 android:layout_marginStart="25dp"/>
-
-            <TextView
-                android:id="@+id/tv_number_timer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1"
-                android:textColor="@color/black"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:layout_marginStart="15dp"/>
 
         </LinearLayout>
 
@@ -45,7 +36,7 @@
             android:text="00"
             android:textSize="25dp"
             android:padding="15dp"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/purple_700"
             android:layout_alignParentRight="true"
             android:textStyle="bold"
             android:layout_marginEnd="100dp"/>
@@ -57,7 +48,7 @@
             android:text=":"
             android:textSize="23dp"
             android:padding="15dp"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/purple_700"
             android:layout_alignParentRight="true"
             android:textStyle="bold"
             android:layout_marginEnd="93dp"/>
@@ -69,11 +60,18 @@
             android:text="00"
             android:textSize="25dp"
             android:padding="15dp"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/purple_700"
             android:layout_alignParentRight="true"
             android:textStyle="bold"
             android:layout_marginEnd="64dp"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignTop="@+id/linearlayout"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="34dp"
+            android:background="@color/primary_color" />
     </RelativeLayout>
 
 </LinearLayout>

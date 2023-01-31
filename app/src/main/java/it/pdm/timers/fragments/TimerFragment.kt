@@ -2,6 +2,7 @@ package it.pdm.timers.fragments
 
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -60,6 +61,7 @@ class TimerFragment : Fragment() {
     private lateinit var TimerAdapter: Adapter
 
     private lateinit var communicator: Communicator
+    private lateinit var number_allenamento : TextView
 
     var databaseReference: DatabaseReference? = null
     var databaseReference2: DatabaseReference? = null
@@ -78,6 +80,7 @@ class TimerFragment : Fragment() {
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_timer, container, false)
         lv_timer = view.findViewById(R.id.listview)
+        number_allenamento = view.findViewById(R.id.tv_number_allenamento)
         communicator = activity as Communicator
 
         setrecyclerview()
@@ -132,6 +135,13 @@ class TimerFragment : Fragment() {
         val fabAdd = view?.findViewById<FloatingActionButton>(R.id.fab_add)
         val fabPlay = view?.findViewById<FloatingActionButton>(R.id.fab_play)
         val fabSave = view?.findViewById<FloatingActionButton>(R.id.fab_save)
+
+        val color = Color.parseColor("#E2DFD2")
+        fab.setColorFilter(color)
+        fabAdd.setColorFilter(color)
+        fabPlay.setColorFilter(color)
+        fabSave.setColorFilter(color)
+
 
         fab.setOnClickListener {
             onAddButtonClicked()
@@ -264,6 +274,8 @@ class TimerFragment : Fragment() {
         lv_timer.layoutManager = gridLayoutManager
         Log.e("path", number_path.toString())
 
+        number_allenamento.text = number_path.toString()
+
         val builder = AlertDialog.Builder(this.requireContext())
         builder.setCancelable(false)
         builder.setView(R.layout.progress_bar_loading)
@@ -314,70 +326,81 @@ class TimerFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun saveData(){
-        val builder = AlertDialog.Builder(this.requireContext())
-        builder.setCancelable(false)
-        builder.setView(R.layout.progress_bar_loading)
-        val dialog = builder.create()
-        dialog.show()
-        uploadData()
-        dialog.dismiss()
+        if (TimeArrayList.isEmpty()){
+            Toast.makeText(this.requireContext(), "Non ci sono timer", Toast.LENGTH_SHORT).show()
+            number_path -= 1
+        }else {
+            val builder = AlertDialog.Builder(this.requireContext())
+            builder.setCancelable(false)
+            builder.setView(R.layout.progress_bar_loading)
+            val dialog = builder.create()
+            dialog.show()
+            uploadData()
+            dialog.dismiss()
+        }
     }
 
     private fun uploadData(){
-        val dataClass = Allenamenti(number_path.toString())
-        val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
-        FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid).child("Allenamento " + number_path)
-            .setValue(dataClass).addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    val inflater = LayoutInflater.from(this.requireContext())
-                    val v = inflater.inflate(R.layout.recylerview_item, null)
+            val dataClass = Allenamenti(number_path.toString())
+            val currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
-                    tv_recyclerview_number = v.findViewById(R.id.tv_recyclerview_numbers)
-                    tv_recyclerview_number.text = number_path.toString()
-                    Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
-                   // createRecyclerView()
-                    createFragment(timerSalvatiFragment)
+            FirebaseDatabase.getInstance("https://timers-46b2e-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference("Allenamenti").child(Firebase.auth.currentUser!!.uid)
+                .child("Allenamento " + number_path)
+                .setValue(dataClass).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val inflater = LayoutInflater.from(this.requireContext())
+                        val v = inflater.inflate(R.layout.recylerview_item, null)
+
+                        tv_recyclerview_number = v.findViewById(R.id.tv_recyclerview_numbers)
+                        tv_recyclerview_number.text = number_path.toString()
+                        Toast.makeText(this.requireContext(), "salvato", Toast.LENGTH_SHORT).show()
+                        // createRecyclerView()
+                        createFragment(timerSalvatiFragment)
+                    }
+                }.addOnFailureListener { e ->
+                    Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
                 }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this.requireContext(), "errore", Toast.LENGTH_SHORT).show()
-            }
     }
 
     private fun readTimers() {
-        if (size != 0){
-            val array = TimeArrayList.get(currentTimer)
+        if (TimeArrayList.isEmpty()){
+            Toast.makeText(this.requireContext(), "Non ci sono timer", Toast.LENGTH_SHORT).show()
+        }else{
+            if (size != 0){
+                val array = TimeArrayList.get(currentTimer)
 
-            val minuti = array.minuti.toString()
-            min = minuti.toInt()
+                val minuti = array.minuti.toString()
+                min = minuti.toInt()
 
-            val secondi = array.secondi.toString()
-            sec = secondi.toInt()
+                val secondi = array.secondi.toString()
+                sec = secondi.toInt()
 
-            sum = (min * 60 * 1000) + (sec * 1000)
+                sum = (min * 60 * 1000) + (sec * 1000)
 
-            playTimers(min, sec)
-            currentTimer += 1
+                playTimers(min, sec)
+                currentTimer += 1
 
-            val timer = java.util.Timer()
+                val timer = java.util.Timer()
 
-            val timerTask = object  : TimerTask(){
-                override fun run() {
-                    if(size > 1){
-                        size -= 1
-                        playAlarm()
-                        readTimers()
-                    }else{
-                        size -= 1
-                        playAlarmFinish()
-                        readTimers()
+                val timerTask = object  : TimerTask(){
+                    override fun run() {
+                        if(size > 1){
+                            size -= 1
+                            playAlarm()
+                            readTimers()
+                        }else{
+                            size -= 1
+                            playAlarmFinish()
+                            readTimers()
+                        }
                     }
                 }
+                timer.schedule(timerTask, sum.toLong())
+            }else{
+                returnAllenamento()
             }
-            timer.schedule(timerTask, sum.toLong())
-        }else{
-            returnAllenamento()
         }
     }
 
@@ -411,7 +434,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun backPath(){
-        if (number_path != 0){
+        if (number_path > 0){
             number_path -= 1
             setrecyclerview()
         }else{
