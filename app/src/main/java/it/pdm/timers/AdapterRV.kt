@@ -34,7 +34,7 @@ class AdapterRV(private val context: Activity, private val allenamentiList: Arra
         holder.tv_delete.setOnClickListener {
             val builder = AlertDialog.Builder(this.context)
             builder.setTitle("Elimina Allenamento")
-            builder.setMessage("Sei sicuro?")
+            builder.setMessage("Sei sicuro di voler eliminare l'Allenamento?")
             builder.setIcon(R.drawable.ic_delete)
             builder.setCancelable(false)
 
