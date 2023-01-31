@@ -43,7 +43,7 @@ class TimerFragment : Fragment() {
     private var currentTimer = 0
     private var size = 0
 
-    var number_path = 1
+    var number_path = 0
     private lateinit var tv_recyclerview_number : TextView
 
     private val timerSalvatiFragment = TimerSalvatiFragment()
