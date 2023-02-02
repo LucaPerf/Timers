@@ -321,7 +321,7 @@ class TimerFragment : Fragment() {
                 val secondi = array.secondi.toString()
                 sec = secondi.toInt()
 
-                sum = (min * 60 * 1000) + (sec * 1000)
+                sum = (min * 60 * 1000) + (sec * 1000) + 1000
 
                 playTimers(min, sec)
                 currentTimer += 1
